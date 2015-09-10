@@ -1,0 +1,71 @@
+# Permalinks
+#
+# Use of `relative_permalinks` ensures post links from the index work properly.
+permalink: "/:title"
+relative_permalinks: true
+highlighter: pygments
+timezone: America/Denver
+
+# Default YAML frontmatter settings
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      comments: true
+
+
+# Tagging settings
+tag_title_prefix:   "Posts tagged #"
+tag_title_suffix:   ""
+
+# Image settings
+image_base:          /public/images/
+
+# Do not copy these file to the output directory
+exclude: ["README.md", "!_plugins/"]
+
+# Setup
+title:               Nathan Bellowe
+tagline:             How's it going?
+url:                 "http://nbellowe.github.io"
+paginate:            4 #??
+#?? baseurl:             "/vr" #??
+
+# Assets
+#
+# We specify the directory for Jekyll so we can use @imports.
+sass:
+  sass_dir:          _sass
+  style:            :compressed
+
+# About/contact
+author:
+  name:              Nathan Bellowe
+  email:             nbellowe@gmail.com
+
+# Custom vars
+version:             1.0.0
+github:
+  repo:              https://github.com/nbellowe/nbellowe
+
+# Conversion
+markdown:    redcarpet
+excerpt_separator: "<!--break-->"
+
+redcarpet:
+  extensions: ["footnotes"]
+
+kramdown:
+  auto_ids: true
+
+pages_list:
+  About: '/about/'
+  Tags: '/tags/'
+  Feed: '/atom.xml'
+
+picture:
+  source: "assets/imgs/_fullsize"
+  output: "generated"
+  markup: "picture"

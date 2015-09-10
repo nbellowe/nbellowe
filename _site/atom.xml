@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>Nathan Bellowe</title>
+ <link href="http://nbellowe.github.io/atom.xml" rel="self"/>
+ <link href="http://nbellowe.github.io/"/>
+ <updated>2015-09-10T00:04:19-06:00</updated>
+ <id>http://nbellowe.github.io</id>
+ <author>
+   <name>Nathan Bellowe</name>
+   <email>nbellowe@gmail.com</email>
+ </author>
+
+ 
+ <entry>
+   <title>First Post</title>
+   <link href="http://nbellowe.github.io/First%20Post"/>
+   <updated>2015-09-09T00:00:00-06:00</updated>
+   <id>http://nbellowe.github.io/First Post</id>
+   <content type="html">&lt;div class=&quot;message&quot;&gt;
+This is my first website! Pretty easy with Jekyll.
+&lt;/div&gt;
+
+&lt;p&gt;My github repo for this site is located &lt;a href=&quot;https://github.com/nbellowe/nbellowe.github.io&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+
+</feed>
