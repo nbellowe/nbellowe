@@ -24,7 +24,7 @@ tag_title_suffix:   ""
 image_base:          /public/images/
 
 # Do not copy these file to the output directory
-exclude: ["README.md", "!_plugins/"]
+exclude: [ README.md ]
 
 # Setup
 title:               Nathan Bellowe
@@ -61,8 +61,9 @@ kramdown:
   auto_ids: true
 
 pages_list:
-  About: '/about/'
-  Tags: '/tags/'
+  Home: '/index.html'
+  About: '/about.html'
+  Tags: '/tags.html'
   Feed: '/atom.xml'
 
 picture:
