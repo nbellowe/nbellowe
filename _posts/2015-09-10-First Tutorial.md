@@ -100,3 +100,5 @@ Lets break that down.
     makeUnit("in", 2.54);
     makeUnit("m", 100);
     ```
+
+A simple example is up [here](/convert.html)

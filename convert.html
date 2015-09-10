@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Convert between units </title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        unitMap = {} // index is unit, value is { dom: jquery for unit text, ratio: number}
+        function makeUnit(name, ratio){
+            var div = $("<div>").appendTo("body")[0];
+            $("<label>").appendTo(div).text(name);
+            unitMap[name] = {
+                dom: $('<input>', {
+                    type: "text",
+                }).keydown(function (event) {
+                    if ((event.keyCode || event.which) == 13) //on enter search map and update values
+                        for(var unit in unitMap) if(unitMap.hasOwnProperty(unit))
+                            unitMap[unit].dom.val((+$(this).val()) * ratio / unitMap[unit].ratio)
+                }).appendTo(div).val(1 * ratio),
+                ratio: ratio
+            }
+        }
+
+        //base is cm
+        makeUnit("cm", 1);
+        makeUnit("mm", .1);
+        makeUnit("in", 2.54);
+        makeUnit("m", 100);
+    </script>
+</body>
+</html>
