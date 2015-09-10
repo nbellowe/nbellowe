@@ -31,9 +31,10 @@ function makeUnit(name, ratio){
         dom: $('<input>', {
             type: "text",
         }).keydown(function (event) {
-            if ((event.keyCode || event.which) == 13) //on enter search map and update values
+            if ((event.keyCode || event.which) == 13)
+            //on enter search map and update values
                 for(var unit in unitDict) if(unitDict.hasOwnProperty(unit))
-                unitDict[unit].dom.val((+$(this).val()) * ratio / unitDict[unit].ratio)
+                    unitDict[unit].dom.val((+$(this).val()) * ratio / unitDict[unit].ratio)
         }).appendTo(div).val(1 * ratio),
         ratio: ratio
     }
