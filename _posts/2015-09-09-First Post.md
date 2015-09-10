@@ -2,10 +2,11 @@
 layout: post
 title: First Post
 summary: Awesome!!!
-tags: []
+tags: ["test", "tags"]
 ---
-<div class="message">
-    This is my first website! Pretty easy with Jekyll.
-</div>
+
+#This is my first website! Pretty easy with Jekyll.
+
+I don't have anything exciting to say yet though...
 
 My github repo for this site is located [here](https://github.com/nbellowe/nbellowe.github.io)

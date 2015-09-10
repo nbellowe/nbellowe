@@ -1,17 +1,9 @@
-{% comment %}
-Getting and sorting tags alphabetically
-foreach output name + link to tag index page
-{% endcomment %}
-
 {% capture mytags %}
   {% for tag in include.tags %}
     {{ tag }}
   {% endfor %}
 {% endcapture %}
 {% assign sortedtags = mytags | split:' ' | sort %}
-
-{% comment %}
-{% endcomment %}
 
 {% for tag in sortedtags %}
 <a href="{{ site.baseurl }}/tag/{{tag}}">#{{tag}}</a>

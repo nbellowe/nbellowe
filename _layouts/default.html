@@ -5,32 +5,19 @@
 <body>
 	{% include sidebar.html %}
 
-	<!-- Wrap is the content to shift when toggling the sidebar. We wrap the
-         content to avoid any CSS collisions with our real content. -->
+	<!-- Wrap is the content to shift when toggling the sidebar -->
 	<div class="wrap">
-		<div class="masthead">
-			<div class="container">
-				<h3 class="masthead-title">
-					<a href="{{ site.baseurl }}/" title="Home">{{ site.title }}</a>
-					<small>
-						{% for page in site.pages_list %} &nbsp;&nbsp;&nbsp;
-						<small><a href="{{ page[1]  }}">{{ page[0] }}</a></small>
-						{% endfor %}
-					</small>
-				</h3>
-			</div>
-		</div>
-
-		<div class="container content">
-			{{ content }}
-			<footer class="footer">
+		<div class="masthead"><div class="container">
+			<h3 class="masthead-title">
+				<a href="{{ site.baseurl }}/" title="Home">{{ site.title }}</a>
 				<small>
-					<time datetime="{{ site.time | date_to_xmlschema }}">
-						{{ site.time | date: '%Y' }}
-					</time>
+					{% for page in site.pages_list %} &nbsp;&nbsp;&nbsp;
+					<small><a href="{{ page[1]  }}">{{ page[0] }}</a></small>
+					{% endfor %}
 				</small>
-			</footer>
-		</div>
+			</h3>
+		</div></div>
+		<div class="container content">{{ content }}</div>
 	</div>
 
 	<label for="sidebar-checkbox" class="sidebar-toggle"></label>

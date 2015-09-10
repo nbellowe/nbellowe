@@ -1,37 +1,23 @@
 # Permalinks
 #
 # Use of `relative_permalinks` ensures post links from the index work properly.
-permalink: "/:title"
 relative_permalinks: true
-highlighter: pygments
-timezone: America/Denver
-
-# Default YAML frontmatter settings
-defaults:
-  -
-    scope:
-      path: ""
-      type: "posts"
-    values:
-      comments: true
-
+permalink:          "/:title"
+highlighter:        pygments
+timezone:           America/Denver
 
 # Tagging settings
 tag_title_prefix:   "Posts tagged #"
 tag_title_suffix:   ""
 
-# Image settings
-image_base:          /public/images/
-
 # Do not copy these file to the output directory
-exclude: [ README.md ]
+exclude:            [ README.md ]
 
 # Setup
 title:               Nathan Bellowe
 tagline:             How's it going?
 url:                 "http://nbellowe.github.io"
-paginate:            4 #??
-#?? baseurl:             "/vr" #??
+paginate:            4
 
 # Assets
 #
@@ -66,7 +52,10 @@ pages_list:
   Tags: '/tags.html'
   Feed: '/atom.xml'
 
-picture:
-  source: "assets/imgs/_fullsize"
-  output: "generated"
-  markup: "picture"
+#picture:
+#  source: "assets/imgs/_fullsize"
+#  output: "generated"
+#  markup: "picture"
+
+# Image settings
+#image_base:          /public/images/
