@@ -2,7 +2,6 @@
 layout: post
 title: First Post
 summary: Awesome!!!
-#tags: ["test", "tags"]
 ---
 
 #This is my first website! Pretty easy with Jekyll.

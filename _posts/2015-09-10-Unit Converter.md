@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Unit Converter
+title: Javascript/HTML - Unit Converter
 summary: Make a simple converter
-tags: ["howto", "code", "programming"]
+tags: ["howto", "code", "programming", "javascript"]
 ---
 #Make a simple unit converter
 
