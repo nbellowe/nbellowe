@@ -1,29 +1,3 @@
----
-layout: post
-title: The Julia Function, Julia Set, and Julia Fractal, written in Typescript
-summary: Make a Julia Fractal again!
-tags: ["howto", "code", "programming", "typescript", "javascript"]
----
-<label for="sizeX" style="float:left"> Width</label><input type="text" id="sizeX" style="float:left"/>
-<label for="sizeY" style="float:left"> Height</label><input type="text" id="sizeY" style="float:left"/><br>
-<label for="xIncr" style="float:left"> XIncr</label><input type="text" id="xIncr" style="float:left"/>
-<label for="yIncr" style="float:left"> YIncr</label><input type="text" id="yIncr" style="float:left"/><br>
-<label for="iLimit" style="float:left"> i Limit</label><input type="text" id="iLimit" style="float:left"/>
-<label for="rLimit" style="float:left"> r Limit</label><input type="text" id="rLimit" style="float:left"/><br>
-<label for="constantR" style="float:left"> ConstantR</label><input type="text" id="constantR" style="float:left"/>
-<label for="constantI" style="float:left"> ConstantI</label><input type="text" id="constantI" style="float:left"/><br>
-<label for="iterations" style="float:left"> Iterations</label><input type="text" id="iterations" style="float:left"/>
-
-<canvas id="fractal">
-
-#Julia is great, but for flexible vizualisation, a browser is awesome!
-
-So I"m adapting the code in my last post to Typescript and making a more
-configurable. Its pretty slow unfortunately. :(  It'll get better when I put some more time into it!
-
-<script src="/public/js/fractal2.js"> </script>
-
-```javascript
 function makeInput(id, val, callbackOnChange) {
     var el: any = document.getElementById(id)
     if (!el) {
@@ -61,7 +35,7 @@ function julia(z, c, maxIterations) {
     if (memoized[id]) return memoized[id]
 
     memoized[id] = maxIterations; //if no other found.
-    for (var n = 1; n <= maxIterations; n++)
+    for (var n = 1; n < maxIterations; n++)
         if (z.timesBy(z).plusBy(c).abs() > 16) {
             memoized[id] = n - 1
             break;
@@ -77,8 +51,8 @@ var width = 500,
     yIncr = 1,
     constantR = -.06,
     constantI = .67,
-    numBuffered = 100,
-    iterations = 50;
+    numBuffered = 10,
+    iterations = 100;
 
 makeInput("sizeX", height, val => { height = +val });
 makeInput("sizeY", width, val => { width = +val });
@@ -89,39 +63,33 @@ makeInput("yIncr", yIncr, val => { yIncr = +val });
 makeInput("constantR", constantR, val => { constantR = +val });
 makeInput("constantI", constantI, val => { constantI = +val });
 makeInput("iterations", iterations, val => { iterations = +val });
-makeInput("numBuffered", numBuffered, val => { numBuffered = +val });
 
 function render() {
     var canvas = <HTMLCanvasElement> document.getElementById("fractal"),
         ctx = canvas.getContext("2d");
 
-    var constant = new Complex(constantR, constantI,
+    var constant = new Complex(constantR, constantI),
         xTor = rLimit * 2 / width,
         yToi = iLimit * 2 / height;
 
 
     canvas.width = width;
     canvas.height = height;
+
     //render successively higher quality, utilizing the memoization of julia fn
-    for (var i = 1; i < numBuffered; i++)
-                _render(
-                    0, 0, width, height,
-                    xIncr * idx, yIncr * idx,
-                    xTor, yToi,
-                    iterations / idx),
-    function _render(startX, startY, endX, endY, stepX, stepY, xTor, yToi, iter) {
+    for (var i = numBuffered; i > 0; i--)
+        _render(0, 0, width, height, xIncr * i, yIncr * i, xTor, yToi)
+
+    function _render(startX, startY, endX, endY, stepX, stepY, xTor, yToi) {
         var iteratingComplex = new Complex(0, 0)
         for (var x = startX; x < endX; x += stepX)
             for (var y = startY; y < endY; y += stepY) {
                 iteratingComplex.r = xTor * (x - width / 2)
                 iteratingComplex.i = yToi * (y - height / 2)
-                var s = Math.round(255 * (julia(iteratingComplex, constant, iter) / iter));
+                var s = Math.round(255 * (julia(iteratingComplex, constant, iterations) / iterations));
                 ctx.fillStyle = "hsl(" + s + ", 100%, 50%)";
                 ctx.fillRect(x, y, stepX, stepY);
             }
     }
 }
 render();
-
-
-```

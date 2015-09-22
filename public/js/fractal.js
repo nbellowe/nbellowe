@@ -73,23 +73,28 @@ function render()
     canvas.width = sizeX;
     canvas.height = sizeY;
 
-	var incrementI = (iLimit * 2) / sizeY,
-		incrementR = (rLimit * 2) / sizeX,
-        constant = new Complex(constantR, constantI),
-		arr2d = [];
-	for (var x = 0; x < sizeX; x+=xIncr)
-	{
-		arr2d[x] = [];
-		for (var y = 0; y < sizeY; y+=yIncr)
-		{
-			var r = -rLimit + incrementR * x,
-				i = -iLimit + incrementI * y,
-                s = arr2d[x][y] = julia(new Complex(r, i), constant, iterations);
-            ctx.fillStyle = "rgb(" + s + "," + s + "," + s + ")";
+	var incrementI = Math.round((iLimit * 2) / sizeY), //go from -1 to 1 if iLimit is 1
+		incrementR = Math.round((rLimit * 2) / sizeX),
+        constant = new Complex(constantR, constantI);
 
+	setTimeout(function(){
+		_render(incrementI*4, incrementR*4, iterations/8);
+	}, 50)
+	setTimeout(function(){
+//		_render(incrementI, incrementR, iterations);
+	}, 55) //after the fast one
 
-			ctx.fillRect(x, y, xIncr, yIncr);
-		}
+	function _render(stepX,stepY,iter){
+		var iteratingComplex = new Complex(0,0);
+		for (var x = 0; x < sizeX; x+=stepX)
+			for (var y = 0; y < sizeY; y+=stepY)
+			{
+	 			iteratingComplex.r = -rLimit + incrementR * x
+				iteratingComplex.i = -iLimit + incrementI * y
+	            var s = Math.round(255*(julia(iteratingComplex, constant, iter)/iter));
+	            ctx.fillStyle = "rgb(" + s + "," + s + "," + s + ")";
+				ctx.fillRect(x, y, xIncr, yIncr);
+			}
 	}
 }
 render();
