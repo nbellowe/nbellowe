@@ -39,7 +39,6 @@ function makeInput(id, val, callbackOnChange){
 
 function julia(z, c, maxIterations)
 {
-	if (!maxIterations) maxIterations = 255
 	for (n = 1; n < maxIterations; n++)
 		if (z.timesBy(z)
 			.plusBy(c)
@@ -54,7 +53,8 @@ var sizeX = 500,
     xIncr = 1,
     yIncr =1,
     constantR = -.06,
-    constantI = .67
+    constantI = .67,
+	iterations = 200;
 
 makeInput("sizeX", sizeX, function(val){ sizeX = +val });
 makeInput("sizeY", sizeY, function(val){ sizeY = +val });
@@ -64,6 +64,7 @@ makeInput("xIncr", xIncr, function(val){ xIncr = +val });
 makeInput("yIncr", yIncr, function(val){ yIncr = +val });
 makeInput("constantR", constantR, function(val){ constantR = +val });
 makeInput("constantI", constantI, function(val){ constantI = +val });
+makeInput("iterations", iterations, function(val){ iterations = +val });
 
 function render()
 {
@@ -83,8 +84,10 @@ function render()
 		{
 			var r = -rLimit + incrementR * x,
 				i = -iLimit + incrementI * y,
-                s = arr2d[x][y] = julia(new Complex(r, i), constant);
+                s = arr2d[x][y] = julia(new Complex(r, i), constant, iterations);
             ctx.fillStyle = "rgb(" + s + "," + s + "," + s + ")";
+
+
 			ctx.fillRect(x, y, xIncr, yIncr);
 		}
 	}
