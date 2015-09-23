@@ -71,8 +71,8 @@ function julia2(z, c, maxIterations) {
     return iterations;
 }
 var width = 500, height = 500, iLimit = 1, rLimit = 1, xIncr = 1, yIncr = 1, constantR = -.06, constantI = .67, numBuffered = 10, centerX = 0, centerY = 0, zoom = 1, iterations = 100;
-makeInput("sizeX", function (val) { height = +val; }, 0, 1000);
-makeInput("sizeY", function (val) { width = +val; }, 0, 1000);
+makeInput("sizeX", function (val) { width = +val; }, 0, 1000);
+makeInput("sizeY", function (val) { height = +val; }, 0, 1000);
 makeInput("iLimit", function (val) { iLimit = +val; }, -1, 1);
 makeInput("rLimit", function (val) { rLimit = +val; }, -1, 1);
 makeInput("xIncr", function (val) { xIncr = +val; }, 1, 10);

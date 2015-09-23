@@ -10,7 +10,7 @@ function makeInput(id, callbackOnChange, min, max) {
     })
     el.min = min || "";
     el.max = max || "";
-    el.style.width = "500px";    
+    el.style.width = "500px";
 }
 function update(id, val) {
 
@@ -86,8 +86,8 @@ var width = 500,
     zoom = 1,
     iterations = 100;
 
-makeInput("sizeX", val => { height = +val }, 0, 1000);
-makeInput("sizeY", val => { width = +val }, 0, 1000);
+makeInput("sizeX", val => { width = +val }, 0, 1000);
+makeInput("sizeY", val => { height = +val }, 0, 1000);
 makeInput("iLimit", val => { iLimit = +val }, -1, 1);
 makeInput("rLimit", val => { rLimit = +val }, -1, 1);
 makeInput("xIncr", val => { xIncr = +val }, 1, 10);
