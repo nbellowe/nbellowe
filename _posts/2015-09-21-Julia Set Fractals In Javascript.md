@@ -9,18 +9,18 @@ tags: ["howto", "code", "programming", "typescript", "javascript"]
 
 <canvas id="fractal">
 
-<label for="sizeX" > Width</label><input type="range" id="sizeX" /><br>
-<label for="sizeY" > Height</label><input type="range" id="sizeY" /><br>
-<label for="xIncr" > XIncr</label><input type="range" id="xIncr" /><br>
-<label for="yIncr" > YIncr</label><input type="range" id="yIncr" /><br>
-<label for="iLimit" > i Limit</label><input type="range" id="iLimit" /><br>
-<label for="rLimit" > r Limit</label><input type="range" id="rLimit" /><br>
-<label for="constantR" > ConstantR</label><input type="range" id="constantR" /><br>
-<label for="constantI" > ConstantI</label><input type="range" id="constantI" /><br>
-<label for="iterations" > Iterations</label><input type="range" id="iterations" /><br>
-<label for="centerX" > CenterX</label><input type="range" id="centerX" /><br>
-<label for="centerY" > CenterY</label><input type="range" id="centerY" /><br>
-<label for="zoom" > Zoom</label><input type="range" id="zoom" /><br>
+<label for="sizeX" > Width</label><input type="range" style="float:right" id="sizeX" /><br>
+<label for="sizeY" > Height</label><input type="range" style="float:right" id="sizeY" /><br>
+<label for="xIncr" > XIncr</label><input type="range" style="float:right" id="xIncr" /><br>
+<label for="yIncr" > YIncr</label><input type="range" style="float:right" id="yIncr" /><br>
+<label for="iLimit" > i Limit</label><input type="range" style="float:right" id="iLimit" /><br>
+<label for="rLimit" > r Limit</label><input type="range" style="float:right" id="rLimit" /><br>
+<label for="constantR" > ConstantR</label><input type="range" style="float:right" id="constantR" /><br>
+<label for="constantI" > ConstantI</label><input type="range" style="float:right" id="constantI" /><br>
+<label for="iterations" > Iterations</label><input type="range" style="float:right" id="iterations" /><br>
+<label for="centerX" > CenterX</label><input type="range" style="float:right" id="centerX" /><br>
+<label for="centerY" > CenterY</label><input type="range" style="float:right" id="centerY" /><br>
+<label for="zoom" > Zoom</label><input type="range" style="float:right" id="zoom" /><br>
 
 
 So I"m adapting the code in my last post to Typescript and making a more

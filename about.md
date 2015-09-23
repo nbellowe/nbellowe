@@ -2,6 +2,7 @@
 layout: page
 title: About Me
 permalink: about.html
+nocomments: true
 ---
 
 # Hi! My name is Nathan Bellowe.

@@ -106,12 +106,15 @@ var Renderer = (function () {
         this.startingX = 0;
         this.startingY = 0;
         this.dragging = false;
+        this.timer = null;
         updateAll();
         this.canvas.width = width;
         this.canvas.height = height;
         this.canvas.addEventListener("mousedown", this.mousedown.bind(this));
+        this.canvas.addEventListener("wheel", this.onwheel.bind(this));
         document.addEventListener("click", this.click.bind(this));
         document.addEventListener("mousemove", this.mousemove.bind(this));
+        this.render();
     }
     Renderer.prototype._zoom = function (centerX, centerY, zoom, qualityDecr) {
         qualityDecr = Math.round(qualityDecr || 1);
@@ -128,7 +131,7 @@ var Renderer = (function () {
             centerX -= this.startingX - e.x;
             this.startingX = e.x;
             this.startingY = e.y;
-            this._zoom(centerX, centerY, zoom, 8);
+            this.fastRender();
         }
     };
     Renderer.prototype.click = function (e) {
@@ -138,6 +141,30 @@ var Renderer = (function () {
         this.startingY = null;
         this.dragging = false;
         this.render();
+    };
+    Renderer.prototype.onwheel = function (e) {
+        var deltaY = 0;
+        e.preventDefault();
+        if (e.deltaY)
+            deltaY = e.deltaY;
+        else if (e.wheelDelta)
+            deltaY = -e.wheelDelta;
+        zoom = Math.min(50, Math.max(0.1, zoom + deltaY / 100));
+        this.fastRender();
+    };
+    Renderer.prototype.fastRender = function () {
+        var _this = this;
+        this._zoom(centerX, centerY, zoom, 8);
+        if (!this.timer)
+            this.timer = setTimeout(function () {
+                _this.render();
+            }, 100);
+        else {
+            clearTimeout(this.timer);
+            this.timer = setTimeout(function () {
+                _this.render();
+            }, 100);
+        }
     };
     Renderer.prototype._render = function (startX, startY, centerX, centerY, endX, endY, stepX, stepY, xTor, yToi) {
         var iteratingComplex = new Complex(0, 0);
@@ -153,26 +180,16 @@ var Renderer = (function () {
     };
     Renderer.prototype.render = function () {
         var _this = this;
-        console.time("fastRender");
-        this._zoom(centerX, centerY, zoom, 8);
-        console.timeEnd("fastRender");
         setTimeout(function () {
+            if (_this.timer) {
+                clearTimeout(_this.timer);
+                _this.timer = null;
+            }
             console.time("fullRender");
             _this._zoom(centerX, centerY, zoom);
             console.timeEnd("fullRender");
-            console.error("Finished rendering at ", centerX, centerY);
         }, 0);
     };
     return Renderer;
 })();
-function debounce(fn, delay) {
-    var timer = null;
-    return function () {
-        var context = this, args = arguments;
-        clearTimeout(timer);
-        timer = setTimeout(function () {
-            fn.apply(context, args);
-        }, delay);
-    };
-}
-(new Renderer).render();
+new Renderer;
