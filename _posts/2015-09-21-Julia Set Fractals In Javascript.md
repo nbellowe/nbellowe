@@ -4,22 +4,24 @@ title: Javascript Fractals
 summary: Make a Julia Fractal again!
 tags: ["howto", "code", "programming", "typescript", "javascript"]
 ---
-<label for="sizeX" style="float:left"> Width</label><input type="range" id="sizeX" style="float:left"/>
-<label for="sizeY" style="float:left"> Height</label><input type="range" id="sizeY" style="float:left"/><br>
-<label for="xIncr" style="float:left"> XIncr</label><input type="range" id="xIncr" style="float:left"/>
-<label for="yIncr" style="float:left"> YIncr</label><input type="range" id="yIncr" style="float:left"/><br>
-<label for="iLimit" style="float:left"> i Limit</label><input type="range" id="iLimit" style="float:left"/>
-<label for="rLimit" style="float:left"> r Limit</label><input type="range" id="rLimit" style="float:left"/><br>
-<label for="constantR" style="float:left"> ConstantR</label><input type="range" id="constantR" style="float:left"/>
-<label for="constantI" style="float:left"> ConstantI</label><input type="range" id="constantI" style="float:left"/><br>
-<label for="iterations" style="float:left"> Iterations</label><input type="range" id="iterations" style="float:left"/><br>
-<label for="centerX" style="float:left"> CenterX</label><input type="range" id="centerX" style="float:left"/>
-<label for="centerY" style="float:left"> CenterY</label><input type="range" id="centerY" style="float:left"/><br>
-<label for="zoom" style="float:left"> Zoom</label><input type="range" id="zoom" style="float:left"/>
+
+#Julia is great, but for flexible vizualisation, a browser is awesome!
 
 <canvas id="fractal">
 
-#Julia is great, but for flexible vizualisation, a browser is awesome!
+<label for="sizeX" > Width</label><input type="range" id="sizeX" /><br>
+<label for="sizeY" > Height</label><input type="range" id="sizeY" /><br>
+<label for="xIncr" > XIncr</label><input type="range" id="xIncr" /><br>
+<label for="yIncr" > YIncr</label><input type="range" id="yIncr" /><br>
+<label for="iLimit" > i Limit</label><input type="range" id="iLimit" /><br>
+<label for="rLimit" > r Limit</label><input type="range" id="rLimit" /><br>
+<label for="constantR" > ConstantR</label><input type="range" id="constantR" /><br>
+<label for="constantI" > ConstantI</label><input type="range" id="constantI" /><br>
+<label for="iterations" > Iterations</label><input type="range" id="iterations" /><br>
+<label for="centerX" > CenterX</label><input type="range" id="centerX" /><br>
+<label for="centerY" > CenterY</label><input type="range" id="centerY" /><br>
+<label for="zoom" > Zoom</label><input type="range" id="zoom" /><br>
+
 
 So I"m adapting the code in my last post to Typescript and making a more
 configurable. Its pretty slow unfortunately. :(  It'll get better when I put some more time into it!
@@ -115,12 +117,12 @@ var width = 500,
 
 makeInput("sizeX", val => { height = +val }, 0, 1000);
 makeInput("sizeY", val => { width = +val }, 0, 1000);
-makeInput("iLimit", val => { iLimit = +val }, -1, 1);
-makeInput("rLimit", val => { rLimit = +val }, -1, 1);
+makeInput("iLimit", val => { iLimit = +val }, -1.01, 1.01);
+makeInput("rLimit", val => { rLimit = +val }, -1.01, 1.01);
 makeInput("xIncr", val => { xIncr = +val }, 1, 10);
 makeInput("yIncr", val => { yIncr = +val }, 1, 10);
-makeInput("constantR", val => { constantR = +val }, -1, 1);
-makeInput("constantI", val => { constantI = +val }, -1, 1);
+makeInput("constantR", val => { constantR = +val }, -1.01, 1.01);
+makeInput("constantI", val => { constantI = +val }, -1.01, 1.01);
 makeInput("iterations", val => { iterations = +val }, 0, 500);
 makeInput("centerX", val => { centerX = +val }, -1000, 1000);
 makeInput("centerY", val => { centerY = +val }, -1000, 1000);
@@ -215,7 +217,6 @@ class Renderer {
             console.time("fullRender")
             this._zoom(centerX, centerY, zoom)
             console.timeEnd("fullRender")
-            console.error("Finished rendering at ", centerX, centerY)
         }, 0)
     }
 }

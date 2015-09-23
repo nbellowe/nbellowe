@@ -10,13 +10,15 @@ function makeInput(id, callbackOnChange, min, max) {
     })
     el.min = min || "";
     el.max = max || "";
+    el.style.width = "500px";    
 }
-function update(id, val){
+function update(id, val) {
+
     var el: any = document.getElementById(id)
     if (!el)
-        console.error(id + " doesn't exist")
-    else
-        el.value = el.val = val;
+        return console.error(id + " doesn't exist")
+    el.value = el.val = val;
+    el.width = "500px";
 }
 
 class Complex {
@@ -97,19 +99,19 @@ makeInput("centerX", val => { centerX = +val }, -1000, 1000);
 makeInput("centerY", val => { centerY = +val }, -1000, 1000);
 makeInput("zoom", val => { zoom = +val }, .25, 20);
 
-function updateAll(){
-    update("sizeX",width);
-    update("sizeY",height);
-    update("iLimit",iLimit);
-    update("rLimit",rLimit);
-    update("xIncr",xIncr);
-    update("yIncr",yIncr);
-    update("constantR",constantR);
-    update("constantI",constantI);
-    update("iterations",iterations);
-    update("centerX",centerX);
-    update("centerY",centerY);
-    update("zoom",zoom);
+function updateAll() {
+    update("sizeX", width);
+    update("sizeY", height);
+    update("iLimit", iLimit);
+    update("rLimit", rLimit);
+    update("xIncr", xIncr);
+    update("yIncr", yIncr);
+    update("constantR", constantR);
+    update("constantI", constantI);
+    update("iterations", iterations);
+    update("centerX", centerX);
+    update("centerY", centerY);
+    update("zoom", zoom);
 }
 class Renderer {
     canvas = <HTMLCanvasElement> document.getElementById("fractal");
@@ -144,7 +146,7 @@ class Renderer {
     }
 
     mousemove(e: MouseEvent) {
-        if(this.dragging){
+        if (this.dragging) {
             centerY -= this.startingY - e.y;
             centerX -= this.startingX - e.x;
 

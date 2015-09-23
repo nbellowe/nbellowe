@@ -10,13 +10,14 @@ function makeInput(id, callbackOnChange, min, max) {
     });
     el.min = min || "";
     el.max = max || "";
+    el.style.width = "500px";
 }
 function update(id, val) {
     var el = document.getElementById(id);
     if (!el)
-        console.error(id + " doesn't exist");
-    else
-        el.value = el.val = val;
+        return console.error(id + " doesn't exist");
+    el.value = el.val = val;
+    el.width = "500px";
 }
 var Complex = (function () {
     function Complex(r, i) {
