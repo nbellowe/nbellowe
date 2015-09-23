@@ -88,12 +88,12 @@ var width = 500,
 
 makeInput("sizeX", val => { width = +val }, 0, 1000);
 makeInput("sizeY", val => { height = +val }, 0, 1000);
-makeInput("iLimit", val => { iLimit = +val }, -1, 1);
-makeInput("rLimit", val => { rLimit = +val }, -1, 1);
+makeInput("iLimit", val => { iLimit = +val }, -1.01, 1.01);
+makeInput("rLimit", val => { rLimit = +val }, -1.01, 1.01);
 makeInput("xIncr", val => { xIncr = +val }, 1, 10);
 makeInput("yIncr", val => { yIncr = +val }, 1, 10);
-makeInput("constantR", val => { constantR = +val }, -1, 1);
-makeInput("constantI", val => { constantI = +val }, -1, 1);
+makeInput("constantR", val => { constantR = +val }, -1.01, 1.01);
+makeInput("constantI", val => { constantI = +val }, -1.01, 1.01);
 makeInput("iterations", val => { iterations = +val }, 0, 500);
 makeInput("centerX", val => { centerX = +val }, -1000, 1000);
 makeInput("centerY", val => { centerY = +val }, -1000, 1000);
