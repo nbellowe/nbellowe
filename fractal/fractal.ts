@@ -1,4 +1,4 @@
-function makeInput(id, callbackOnChange, min, max) {
+function makeSlideInput(id, callbackOnChange, min, max) {
     var el: any = document.getElementById(id)
     if (!el) {
         console.error(id + " doesn't exist")
@@ -12,8 +12,20 @@ function makeInput(id, callbackOnChange, min, max) {
     el.max = max || "";
     el.style.width = "500px";
 }
-function update(id, val) {
 
+function makeComboInput(id, callbackOnChange) {
+    var el: any = document.getElementById(id)
+    if (!el) {
+        console.error(id + " doesn't exist")
+        return;
+    }
+    el.addEventListener("change", function(evt) {
+        callbackOnChange((<HTMLTextAreaElement> evt.srcElement).value);
+        (new Renderer).render();
+    })
+}
+
+function update(id, val) {
     var el: any = document.getElementById(id)
     if (!el)
         return console.error(id + " doesn't exist")
@@ -70,9 +82,11 @@ function julia2(z: Complex, c: Complex, maxIterations) {
     }
     return iterations;
 }
+enum TYPE { JULIA2, JULIA, MANDELBROT }
 
-//julia set param
-var width = 500,
+// parameters
+var type: TYPE = TYPE.JULIA2,
+    width = 500,
     height = 500,
     iLimit = 1,
     rLimit = 1,
@@ -86,18 +100,19 @@ var width = 500,
     zoom = 1,
     iterations = 100;
 
-makeInput("sizeX", val => { width = +val }, 0, 1000);
-makeInput("sizeY", val => { height = +val }, 0, 1000);
-makeInput("iLimit", val => { iLimit = +val }, -1.01, 1.01);
-makeInput("rLimit", val => { rLimit = +val }, -1.01, 1.01);
-makeInput("xIncr", val => { xIncr = +val }, 1, 10);
-makeInput("yIncr", val => { yIncr = +val }, 1, 10);
-makeInput("constantR", val => { constantR = +val }, -1.01, 1.01);
-makeInput("constantI", val => { constantI = +val }, -1.01, 1.01);
-makeInput("iterations", val => { iterations = +val }, 0, 500);
-makeInput("centerX", val => { centerX = +val }, -1000, 1000);
-makeInput("centerY", val => { centerY = +val }, -1000, 1000);
-makeInput("zoom", val => { zoom = +val }, .25, 20);
+makeSlideInput("sizeX", val => { width = +val }, 0, 1000);
+makeSlideInput("sizeY", val => { height = +val }, 0, 1000);
+makeSlideInput("iLimit", val => { iLimit = +val }, -1.01, 1.01);
+makeSlideInput("rLimit", val => { rLimit = +val }, -1.01, 1.01);
+makeSlideInput("xIncr", val => { xIncr = +val }, 1, 10);
+makeSlideInput("yIncr", val => { yIncr = +val }, 1, 10);
+makeSlideInput("constantR", val => { constantR = +val }, -1.01, 1.01);
+makeSlideInput("constantI", val => { constantI = +val }, -1.01, 1.01);
+makeSlideInput("iterations", val => { iterations = +val }, 0, 500);
+makeSlideInput("centerX", val => { centerX = +val }, -1000, 1000);
+makeSlideInput("centerY", val => { centerY = +val }, -1000, 1000);
+makeSlideInput("zoom", val => { zoom = +val }, .25, 20);
+makeComboInput("type", val => { type = val });
 
 function updateAll() {
     update("sizeX", width);
@@ -133,8 +148,8 @@ class Renderer {
     }
 
     _zoom(centerX, centerY, zoom, qualityDecr?) {
-        qualityDecr = Math.round(qualityDecr || 1);
-        this._render(0, 0, -centerX, -centerY, width, height, xIncr * qualityDecr, yIncr * qualityDecr, this.xTor / zoom, this.yToi / zoom)
+        qualityDecr = Math.ceil(qualityDecr || 1);
+        this._render(0, 0, -centerX, -centerY, width, height, xIncr * qualityDecr, yIncr * qualityDecr, this.xTor / zoom, this.yToi / zoom, type)
     }
 
     startingX = 0;
@@ -149,15 +164,13 @@ class Renderer {
     }
 
     mousemove(e: MouseEvent) {
-        if (this.dragging) {
-            centerY -= this.startingY - e.y;
-            centerX -= this.startingX - e.x;
+        if (!this.dragging) return;
 
-            this.startingX = e.x;
-            this.startingY = e.y;
-
-            this.fastRender();
-        }
+        centerY -= this.startingY - e.y;
+        centerX -= this.startingX - e.x;
+        this.startingX = e.x;
+        this.startingY = e.y;
+        this.fastRender();
     }
 
     click(e: MouseEvent) {
@@ -184,7 +197,7 @@ class Renderer {
     timer = null;
     fastRender() {
         this._zoom(centerX, centerY, zoom, 8);
-        if(!this.timer)
+        if (!this.timer)
             this.timer = setTimeout(() => {
                 this.render()
             }, 100);
@@ -196,14 +209,19 @@ class Renderer {
         }
     }
 
-    _render(startX, startY, centerX, centerY, endX, endY, stepX, stepY, xTor, yToi) {
+    _render(startX, startY, centerX, centerY, endX, endY, stepX, stepY, xTor, yToi, type: TYPE) {
         var iteratingComplex = new Complex(0, 0);
         var constant = new Complex(constantR, constantI);
+        var alg = julia2;
+        if (type === TYPE.JULIA)
+            alg = julia;
+        else if (type === TYPE.MANDELBROT)
+            alg = null
         for (var x = startX; x < endX; x += stepX)
             for (var y = startY; y < endY; y += stepY) {
                 iteratingComplex.r = xTor * ((centerX + x) - width / 2)
                 iteratingComplex.i = yToi * ((centerY + y) - height / 2)
-                this.ctx.fillStyle = "hsl(" + Math.round(255 * (julia2(iteratingComplex, constant, iterations) / iterations))
+                this.ctx.fillStyle = "hsl(" + Math.round(255 * (alg(iteratingComplex, constant, iterations) / iterations))
                 + ", 100%, 50%)";
                 this.ctx.fillRect(x, y, stepX, stepY);
             }
@@ -220,5 +238,110 @@ class Renderer {
         }, 0)
     }
 }
+/*
+class WebGLFractal {
+    vertices: Uint8Array;
+    canvas: HTMLCanvasElement = <HTMLCanvasElement> document.getElementById("fractal");
+    gl: WebGLRenderingContext = this.canvas.getContext("experimental-webgl");
+    shaderProgram = this.gl.createProgram();
+    vertexPositionBuffer = this.gl.createBuffer();
+    fragmentShader = this.getShader(this.gl, "shader-fs");
+    vertexShader = this.getShader(this.gl, "shader-vs");
+    aVertexPosition: number;
+    aPlotPosition: number;
+    centerOffsetX = 0;
+    centerOffsetY = 0;
+    baseCorners = [
+        [0.7, 1.2],
+        [-2.2, 1.2],
+        [0.7, -1.2],
+        [-2.2, -1.2],
+    ];
+    corners = [];
+    itemSize = 2;
+    numItems = 4;
 
-new Renderer
+
+    webGLStart() {
+        window["wgl"] = this;
+        //init shaders
+
+        this.gl.attachShader(this.shaderProgram, this.vertexShader);
+        this.gl.attachShader(this.shaderProgram, this.fragmentShader);
+        if (!this.gl.getProgramParameter(this.shaderProgram, this.gl.LINK_STATUS))
+            alert("Could not initialise shaders");
+
+
+        this.aVertexPosition = this.gl.getAttribLocation(this.shaderProgram, "aVertexPosition");
+        this.gl.enableVertexAttribArray(this.aVertexPosition);
+        this.aPlotPosition = this.gl.getAttribLocation(this.shaderProgram, "aPlotPosition");
+        this.gl.enableVertexAttribArray(this.aPlotPosition);
+        this.gl.useProgram(this.shaderProgram);
+
+        //init buffers
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vertexPositionBuffer);
+        var vertices = [
+            1.0, 1.0,
+            -1.0, 1.0,
+            1.0, -1.0,
+            -1.0, -1.0,
+        ];
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(vertices), this.gl.STATIC_DRAW);
+
+        this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        this.gl.enable(this.gl.DEPTH_TEST);
+
+        //draw scene
+        console.error("Drawing scene.")
+        this.drawScene();
+        setInterval(this.drawScene.bind(this), 15);
+    }
+
+    drawScene() {
+        this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vertexPositionBuffer);
+        this.gl.vertexAttribPointer(this.aVertexPosition, this.itemSize, this.gl.FLOAT, false, 0, 0);
+        var plotPositionBuffer = this.gl.createBuffer();
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, plotPositionBuffer);
+        var cornerIx;
+        for (cornerIx in this.baseCorners) {
+            var x = this.baseCorners[cornerIx][0];
+            var y = this.baseCorners[cornerIx][1];
+            this.corners.push(x / zoom + this.centerOffsetX);
+            this.corners.push(y / zoom + this.centerOffsetY);
+        }
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(this.corners), this.gl.STATIC_DRAW);
+        this.gl.vertexAttribPointer(this.aPlotPosition, 2, this.gl.FLOAT, false, 0, 0);
+        this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+        this.gl.deleteBuffer(plotPositionBuffer)
+        this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    }
+
+    getShader(gl, id) {
+        var shaderScript = <any> document.getElementById(id);
+        if (!shaderScript)
+            return null;
+        var str = "";
+        var k = shaderScript.firstChild;
+        while (k) {
+            if (k.nodeType == 3)
+                str += k.textContent;
+            k = k.nextSibling;
+        }
+        var shader;
+        if (shaderScript.type === "x-shader/x-fragment")
+            shader = gl.createShader(gl.FRAGMENT_SHADER);
+        else if (shaderScript.type === "x-shader/x-vertex")
+            shader = gl.createShader(gl.VERTEX_SHADER);
+        else
+            return null;
+        gl.shaderSource(shader, str);
+        gl.compileShader(shader);
+        if (gl.getShaderParameter(shader, gl.COMPILE_STATUS))
+            return shader;
+        alert(gl.getShaderInfoLog(shader));
+        return null;
+    }
+}*/
+new Renderer;
