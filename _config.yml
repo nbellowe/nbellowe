@@ -15,12 +15,11 @@ exclude:            [ README.md ]
 
 # Setup
 title:               Nathan Bellowe
-tagline:             How's it going?
+tagline:             My personal website. 
 url:                 "http://nbellowe.github.io"
 paginate:            4
 
 # Assets
-#
 # We specify the directory for Jekyll so we can use @imports.
 sass:
   sass_dir:          _sass
@@ -30,6 +29,11 @@ sass:
 author:
   name:              Nathan Bellowe
   email:             nbellowe@gmail.com
+
+pages_list:
+  Home: '/index.html'
+  About: '/about.html'
+  Tags: '/tags.html'
 
 # Custom vars
 version:             1.0.0
@@ -46,20 +50,8 @@ redcarpet:
 kramdown:
   auto_ids: true
 
-pages_list:
-  Home: '/index.html'
-  About: '/about.html'
-  Tags: '/tags.html'
-  Feed: '/atom.xml'
-
 gems:
     - jekyll-redirect-from
+    - jekyll-feed
+    - jekyll-sitemap
 
-
-#picture:
-#  source: "assets/imgs/_fullsize"
-#  output: "generated"
-#  markup: "picture"
-
-# Image settings
-#image_base:          /public/images/

@@ -135,7 +135,7 @@ var Renderer = (function () {
         this.render();
     }
     Renderer.prototype._zoom = function (centerX, centerY, zoom, qualityDecr) {
-        qualityDecr = Math.round(qualityDecr || 1);
+        qualityDecr = Math.ceil(qualityDecr || 1);
         this._render(0, 0, -centerX, -centerY, width, height, xIncr * qualityDecr, yIncr * qualityDecr, this.xTor / zoom, this.yToi / zoom, type);
     };
     Renderer.prototype.mousedown = function (e) {
@@ -144,13 +144,13 @@ var Renderer = (function () {
         this.startingY = e.y;
     };
     Renderer.prototype.mousemove = function (e) {
-        if (this.dragging) {
-            centerY -= this.startingY - e.y;
-            centerX -= this.startingX - e.x;
-            this.startingX = e.x;
-            this.startingY = e.y;
-            this.fastRender();
-        }
+        if (!this.dragging)
+            return;
+        centerY -= this.startingY - e.y;
+        centerX -= this.startingX - e.x;
+        this.startingX = e.x;
+        this.startingY = e.y;
+        this.fastRender();
     };
     Renderer.prototype.click = function (e) {
         document.removeEventListener("mousemove", this.mousemove);
