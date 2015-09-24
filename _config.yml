@@ -52,6 +52,10 @@ pages_list:
   Tags: '/tags.html'
   Feed: '/atom.xml'
 
+gems:
+    - jekyll-redirect-from
+
+
 #picture:
 #  source: "assets/imgs/_fullsize"
 #  output: "generated"

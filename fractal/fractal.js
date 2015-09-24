@@ -1,4 +1,4 @@
-function makeInput(id, callbackOnChange, min, max) {
+function makeSlideInput(id, callbackOnChange, min, max) {
     var el = document.getElementById(id);
     if (!el) {
         console.error(id + " doesn't exist");
@@ -11,6 +11,17 @@ function makeInput(id, callbackOnChange, min, max) {
     el.min = min || "";
     el.max = max || "";
     el.style.width = "500px";
+}
+function makeComboInput(id, callbackOnChange) {
+    var el = document.getElementById(id);
+    if (!el) {
+        console.error(id + " doesn't exist");
+        return;
+    }
+    el.addEventListener("change", function (evt) {
+        callbackOnChange(evt.srcElement.value);
+        (new Renderer).render();
+    });
 }
 function update(id, val) {
     var el = document.getElementById(id);
@@ -70,19 +81,26 @@ function julia2(z, c, maxIterations) {
     }
     return iterations;
 }
-var width = 500, height = 500, iLimit = 1, rLimit = 1, xIncr = 1, yIncr = 1, constantR = -.06, constantI = .67, numBuffered = 10, centerX = 0, centerY = 0, zoom = 1, iterations = 100;
-makeInput("sizeX", function (val) { width = +val; }, 0, 1000);
-makeInput("sizeY", function (val) { height = +val; }, 0, 1000);
-makeInput("iLimit", function (val) { iLimit = +val; }, -1.01, 1.01);
-makeInput("rLimit", function (val) { rLimit = +val; }, -1.01, 1.01);
-makeInput("xIncr", function (val) { xIncr = +val; }, 1, 10);
-makeInput("yIncr", function (val) { yIncr = +val; }, 1, 10);
-makeInput("constantR", function (val) { constantR = +val; }, -1.01, 1.01);
-makeInput("constantI", function (val) { constantI = +val; }, -1.01, 1.01);
-makeInput("iterations", function (val) { iterations = +val; }, 0, 500);
-makeInput("centerX", function (val) { centerX = +val; }, -1000, 1000);
-makeInput("centerY", function (val) { centerY = +val; }, -1000, 1000);
-makeInput("zoom", function (val) { zoom = +val; }, .25, 20);
+var TYPE;
+(function (TYPE) {
+    TYPE[TYPE["JULIA2"] = 0] = "JULIA2";
+    TYPE[TYPE["JULIA"] = 1] = "JULIA";
+    TYPE[TYPE["MANDELBROT"] = 2] = "MANDELBROT";
+})(TYPE || (TYPE = {}));
+var type = TYPE.JULIA2, width = 500, height = 500, iLimit = 1, rLimit = 1, xIncr = 1, yIncr = 1, constantR = -.06, constantI = .67, numBuffered = 10, centerX = 0, centerY = 0, zoom = 1, iterations = 100;
+makeSlideInput("sizeX", function (val) { width = +val; }, 0, 1000);
+makeSlideInput("sizeY", function (val) { height = +val; }, 0, 1000);
+makeSlideInput("iLimit", function (val) { iLimit = +val; }, -1.01, 1.01);
+makeSlideInput("rLimit", function (val) { rLimit = +val; }, -1.01, 1.01);
+makeSlideInput("xIncr", function (val) { xIncr = +val; }, 1, 10);
+makeSlideInput("yIncr", function (val) { yIncr = +val; }, 1, 10);
+makeSlideInput("constantR", function (val) { constantR = +val; }, -1.01, 1.01);
+makeSlideInput("constantI", function (val) { constantI = +val; }, -1.01, 1.01);
+makeSlideInput("iterations", function (val) { iterations = +val; }, 0, 500);
+makeSlideInput("centerX", function (val) { centerX = +val; }, -1000, 1000);
+makeSlideInput("centerY", function (val) { centerY = +val; }, -1000, 1000);
+makeSlideInput("zoom", function (val) { zoom = +val; }, .25, 20);
+makeComboInput("type", function (val) { type = val; });
 function updateAll() {
     update("sizeX", width);
     update("sizeY", height);
@@ -118,7 +136,7 @@ var Renderer = (function () {
     }
     Renderer.prototype._zoom = function (centerX, centerY, zoom, qualityDecr) {
         qualityDecr = Math.round(qualityDecr || 1);
-        this._render(0, 0, -centerX, -centerY, width, height, xIncr * qualityDecr, yIncr * qualityDecr, this.xTor / zoom, this.yToi / zoom);
+        this._render(0, 0, -centerX, -centerY, width, height, xIncr * qualityDecr, yIncr * qualityDecr, this.xTor / zoom, this.yToi / zoom, type);
     };
     Renderer.prototype.mousedown = function (e) {
         this.dragging = true;
@@ -166,14 +184,19 @@ var Renderer = (function () {
             }, 100);
         }
     };
-    Renderer.prototype._render = function (startX, startY, centerX, centerY, endX, endY, stepX, stepY, xTor, yToi) {
+    Renderer.prototype._render = function (startX, startY, centerX, centerY, endX, endY, stepX, stepY, xTor, yToi, type) {
         var iteratingComplex = new Complex(0, 0);
         var constant = new Complex(constantR, constantI);
+        var alg = julia2;
+        if (type === TYPE.JULIA)
+            alg = julia;
+        else if (type === TYPE.MANDELBROT)
+            alg = null;
         for (var x = startX; x < endX; x += stepX)
             for (var y = startY; y < endY; y += stepY) {
                 iteratingComplex.r = xTor * ((centerX + x) - width / 2);
                 iteratingComplex.i = yToi * ((centerY + y) - height / 2);
-                this.ctx.fillStyle = "hsl(" + Math.round(255 * (julia2(iteratingComplex, constant, iterations) / iterations))
+                this.ctx.fillStyle = "hsl(" + Math.round(255 * (alg(iteratingComplex, constant, iterations) / iterations))
                     + ", 100%, 50%)";
                 this.ctx.fillRect(x, y, stepX, stepY);
             }

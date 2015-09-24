@@ -1,4 +1,4 @@
-function makeInput(id, callbackOnChange, min, max) {
+function makeSlideInput(id, callbackOnChange, min, max) {
     var el: any = document.getElementById(id)
     if (!el) {
         console.error(id + " doesn't exist")
@@ -11,6 +11,18 @@ function makeInput(id, callbackOnChange, min, max) {
     el.min = min || "";
     el.max = max || "";
     el.style.width = "500px";
+}
+
+function makeComboInput(id, callbackOnChange){
+    var el: any = document.getElementById(id)
+    if (!el) {
+        console.error(id + " doesn't exist")
+        return;
+    }
+    el.addEventListener("change", function(evt) {
+        callbackOnChange((<HTMLTextAreaElement> evt.srcElement).value);
+        (new Renderer).render();
+    })
 }
 function update(id, val) {
 
@@ -70,9 +82,11 @@ function julia2(z: Complex, c: Complex, maxIterations) {
     }
     return iterations;
 }
+enum TYPE { JULIA2, JULIA, MANDELBROT }
 
-//julia set param
-var width = 500,
+// parameters
+var type: TYPE = TYPE.JULIA2,
+    width = 500,
     height = 500,
     iLimit = 1,
     rLimit = 1,
@@ -86,18 +100,19 @@ var width = 500,
     zoom = 1,
     iterations = 100;
 
-makeInput("sizeX", val => { width = +val }, 0, 1000);
-makeInput("sizeY", val => { height = +val }, 0, 1000);
-makeInput("iLimit", val => { iLimit = +val }, -1.01, 1.01);
-makeInput("rLimit", val => { rLimit = +val }, -1.01, 1.01);
-makeInput("xIncr", val => { xIncr = +val }, 1, 10);
-makeInput("yIncr", val => { yIncr = +val }, 1, 10);
-makeInput("constantR", val => { constantR = +val }, -1.01, 1.01);
-makeInput("constantI", val => { constantI = +val }, -1.01, 1.01);
-makeInput("iterations", val => { iterations = +val }, 0, 500);
-makeInput("centerX", val => { centerX = +val }, -1000, 1000);
-makeInput("centerY", val => { centerY = +val }, -1000, 1000);
-makeInput("zoom", val => { zoom = +val }, .25, 20);
+makeSlideInput("sizeX", val => { width = +val }, 0, 1000);
+makeSlideInput("sizeY", val => { height = +val }, 0, 1000);
+makeSlideInput("iLimit", val => { iLimit = +val }, -1.01, 1.01);
+makeSlideInput("rLimit", val => { rLimit = +val }, -1.01, 1.01);
+makeSlideInput("xIncr", val => { xIncr = +val }, 1, 10);
+makeSlideInput("yIncr", val => { yIncr = +val }, 1, 10);
+makeSlideInput("constantR", val => { constantR = +val }, -1.01, 1.01);
+makeSlideInput("constantI", val => { constantI = +val }, -1.01, 1.01);
+makeSlideInput("iterations", val => { iterations = +val }, 0, 500);
+makeSlideInput("centerX", val => { centerX = +val }, -1000, 1000);
+makeSlideInput("centerY", val => { centerY = +val }, -1000, 1000);
+makeSlideInput("zoom", val => { zoom = +val }, .25, 20);
+makeComboInput("type", val => { type = val });
 
 function updateAll() {
     update("sizeX", width);
@@ -134,7 +149,7 @@ class Renderer {
 
     _zoom(centerX, centerY, zoom, qualityDecr?) {
         qualityDecr = Math.round(qualityDecr || 1);
-        this._render(0, 0, -centerX, -centerY, width, height, xIncr * qualityDecr, yIncr * qualityDecr, this.xTor / zoom, this.yToi / zoom)
+        this._render(0, 0, -centerX, -centerY, width, height, xIncr * qualityDecr, yIncr * qualityDecr, this.xTor / zoom, this.yToi / zoom, type)
     }
 
     startingX = 0;
@@ -196,14 +211,19 @@ class Renderer {
         }
     }
 
-    _render(startX, startY, centerX, centerY, endX, endY, stepX, stepY, xTor, yToi) {
+    _render(startX, startY, centerX, centerY, endX, endY, stepX, stepY, xTor, yToi, type:TYPE) {
         var iteratingComplex = new Complex(0, 0);
         var constant = new Complex(constantR, constantI);
+        var alg = julia2;
+        if(type === TYPE.JULIA)
+            alg = julia;
+        else if(type === TYPE.MANDELBROT)
+            alg = null
         for (var x = startX; x < endX; x += stepX)
             for (var y = startY; y < endY; y += stepY) {
                 iteratingComplex.r = xTor * ((centerX + x) - width / 2)
                 iteratingComplex.i = yToi * ((centerY + y) - height / 2)
-                this.ctx.fillStyle = "hsl(" + Math.round(255 * (julia2(iteratingComplex, constant, iterations) / iterations))
+                this.ctx.fillStyle = "hsl(" + Math.round(255 * (alg(iteratingComplex, constant, iterations) / iterations))
                 + ", 100%, 50%)";
                 this.ctx.fillRect(x, y, stepX, stepY);
             }
