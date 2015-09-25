@@ -72,7 +72,7 @@ Composition type: <select id="composite" style="height: 50px;font-size: large;">
 
 
 
-I don't feel like writing anything about this, its fairly simple...
+I don't feel like writing anything about this yet..
 
 #Here's the source
 ```javascript
