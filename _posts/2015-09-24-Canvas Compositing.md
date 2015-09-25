@@ -19,9 +19,7 @@ First circle: <select id="one" >
 		<option value="gradient1">Gradient 1</option>
 		<option value="gradient2">Gradient 2</option>
 		<option value="gradient3">Gradient 3</option>
-</select>
-
-Second circle: <select id="two" >
+</select> Second circle: <select id="two" >
 	<option value="green">Green</option>
 	<option value="red">Red</option>
 	<option value="blue">Blue</option>
@@ -29,9 +27,7 @@ Second circle: <select id="two" >
 	option value="gradient1">Gradient 1</option>
 	<option value="gradient2">Gradient 2</option>
 	<option value="gradient3">Gradient 3</option>
-</select>
-
-Third circle: <select id="three" >
+</select> Third circle: <select id="three" >
 	<option value="blue">Blue</option>
 	<option value="red">Red</option>
 	<option value="green">Green</option>
