@@ -167,7 +167,7 @@ var Renderer = (function () {
             deltaY = e.deltaY;
         else if (e.wheelDelta)
             deltaY = -e.wheelDelta;
-        zoom = Math.min(50, Math.max(0.1, zoom + deltaY / 100));
+        zoom = Math.max(0.1, zoom * (1 + (deltaY / 100)));
         this.fastRender();
     };
     Renderer.prototype.fastRender = function () {

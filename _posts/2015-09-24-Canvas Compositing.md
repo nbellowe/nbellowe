@@ -2,21 +2,46 @@
 layout: post
 title: Canvas compositing
 ---
+Backcolor <select id="backcolor">
+	<option value="grey">Grey</option>
+	<option value="black">Black</option>
+	<option value="white">White</option>
+	<option value="yellow">Yellow</option>
+	<option value="none">Just clear the canvas</option>
 
-Each time the three circles are drawn the same in the same order.
+</select>
 
-    1. First the top left in blue
-    2. Then the top right in red
-    3. Then the bottom in green
-In standard source-over mode, the blue looks to be the farthest away, then red, then green.
+First circle: <select id="one" >
+		<option value="red">Red</option>
+		<option value="green">Green</option>
+		<option value="blue">Blue</option>
+		<option value="yellow">Yellow</option>
+		<option value="gradient1">Gradient 1</option>
+		<option value="gradient2">Gradient 2</option>
+		<option value="gradient3">Gradient 3</option>
+</select>
 
-```javascript
-    drawCirc(topLeft,"blue")
-    drawCirc(topRight,"red")
-    drawCirc(bottom,"green")
-```
+Second circle: <select id="two" >
+	<option value="green">Green</option>
+	<option value="red">Red</option>
+	<option value="blue">Blue</option>
+	<option value="yellow">Yellow</option>
+	option value="gradient1">Gradient 1</option>
+	<option value="gradient2">Gradient 2</option>
+	<option value="gradient3">Gradient 3</option>
+</select>
 
-<select id="composite" style="height: 50px;font-size: large;">
+Third circle: <select id="three" >
+	<option value="blue">Blue</option>
+	<option value="red">Red</option>
+	<option value="green">Green</option>
+	<option value="yellow">Yellow</option>
+	<option value="gradient1">Gradient 1</option>
+	<option value="gradient2">Gradient 2</option>
+	<option value="gradient3">Gradient 3</option>
+</select>
+
+Composition type: <select id="composite" style="height: 50px;font-size: large;">
 	<option value="source-over"> source-over --- This is the default setting and draws new shapes on top of the existing canvas content. </option>
 	<option value="source-in"> source-in --- The new shape is drawn only where both the new shape and the destination canvas overlap. Everything else is made transparent. </option>
 	<option value="source-out"> source-out --- The new shape is drawn where it doesn't overlap the existing canvas content. </option>
