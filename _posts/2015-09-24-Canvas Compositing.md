@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Canvas compositing
+tags: ["code", "programming", "javascript"]
 ---
 Backcolor <select id="backcolor">
 	<option value="grey">Grey</option>
