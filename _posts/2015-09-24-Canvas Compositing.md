@@ -7,13 +7,13 @@ Each time the three circles are drawn the same in the same order.
 
     1. First the top left in blue
     2. Then the top right in red
-    3. Then the bottom in yellow
-In standard source-over mode, the blue looks to be the farthest away, then red, then yellow.
+    3. Then the bottom in green
+In standard source-over mode, the blue looks to be the farthest away, then red, then green.
 
 ```javascript
     drawCirc(topLeft,"blue")
     drawCirc(topRight,"red")
-    drawCirc(bottom,"yellow")
+    drawCirc(bottom,"green")
 ```
 
 <select id="composite" style="height: 50px;font-size: large;">
@@ -46,5 +46,4 @@ In standard source-over mode, the blue looks to be the farthest away, then red, 
 </select>
 
 <canvas id="canvas1" width="450px" height="400px">
-<canvas id="canvas2" width="450px" height="400px">
 <script src="/public/js/compositeCanvas.js"></script>

@@ -10,7 +10,7 @@ function draw(op) {
     ctx1.globalCompositeOperation = op;
     drawCirc(ctx1, first, halfLength * 3 / 2, "blue");
     drawCirc(ctx1, second, halfLength * 3 / 2, "red");
-    drawCirc(ctx1, third, halfLength * 3 / 2, "yellow");
+    drawCirc(ctx1, third, halfLength * 3 / 2, "green");
 }
 document.getElementById("composite").addEventListener("change", function (evt) { return draw(evt.srcElement.value); });
 draw("source-over");
