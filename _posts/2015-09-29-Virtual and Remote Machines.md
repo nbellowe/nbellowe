@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Virtual Machines rock
-tags: ["programming"]
+tags: ["code", "programming", "language"]
 ---
 
 #Why virtual machines are great.
