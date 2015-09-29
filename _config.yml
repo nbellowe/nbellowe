@@ -11,11 +11,11 @@ tag_title_prefix:   "Posts tagged #"
 tag_title_suffix:   ""
 
 # Do not copy these file to the output directory
-exclude:            [ README.md ]
+exclude:            [ .gitignore, .gitmodules, CNAME, README.md, fractal/FractalExplorer/ ]
 
 # Setup
 title:               Nathan Bellowe
-tagline:             My personal website. 
+tagline:             My personal website.
 url:                 "http://nbellowe.github.io"
 paginate:            4
 
@@ -54,4 +54,3 @@ gems:
     - jekyll-redirect-from
     - jekyll-feed
     - jekyll-sitemap
-

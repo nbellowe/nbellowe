@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="msapplication-tap-highlight" content="no" />
+	<!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+	<title>Fractal Program</title>
+</head>
+
+<body>
+	<canvas id="fractal"></canvas>
+	<br>
+
+	<label>Fractal type </label>
+	<select id="type">
+		<option value="julia2">Julia (optimized)</option>
+		<option value="julia">Julia(not-optimized)</option>
+	</select>
+	<br>
+
+	<label>Color Scale </label>
+	<select id="">
+		<option value="hsv" />Altering H of HSV</option>
+	</select>
+	<br>
+
+	<label>Width</label>
+	<input type="range" style="float:right" id="sizeX" />
+	<br>
+
+	<label>Height</label>
+	<input type="range" style="float:right" id="sizeY" />
+	<br>
+
+	<label>XIncr</label>
+	<input type="range" style="float:right" id="xIncr" />
+	<br>
+
+	<label>YIncr</label>
+	<input type="range" style="float:right" id="yIncr" />
+	<br>
+
+	<label>i Limit</label>
+	<input type="range" style="float:right" id="iLimit" />
+	<br>
+
+	<label>r Limit</label>
+	<input type="range" style="float:right" id="rLimit" />
+	<br>
+
+	<label>ConstantR</label>
+	<input type="range" style="float:right" id="constantR" />
+	<br>
+
+	<label>ConstantI</label>
+	<input type="range" style="float:right" id="constantI" />
+	<br>
+
+	<label>Iterations</label>
+	<input type="range" style="float:right" id="iterations" />
+	<br>
+
+	<label>CenterX</label>
+	<input type="range" style="float:right" id="centerX" />
+	<br>
+
+	<label>CenterY</label>
+	<input type="range" style="float:right" id="centerY" />
+	<br>
+
+	<label>Zoom</label>
+	<input type="range" style="float:right" id="zoom" />
+	<br>
+
+	<script src="cordova.js"></script>
+	<script>
+        function createLabel(text){
+            var label = document.createElement('label');
+            label.innerText = text;
+            document.body.appendChild(label)
+        }
+        createLabel("Initialized... ")
+
+		function go() {
+			createLabel("Hit the device ready")
+			var script = document.createElement('script');
+			script.type = 'text/javascript';
+            script.onload = function() {
+				createLabel("Loaded the fractal.js file")
+                new Renderer;
+			};
+			script.src = 'js/fractal.js';
+			document.getElementsByTagName('head')[0]
+                    .appendChild(script);
+		}
+		var app = {
+			// Application Constructor bind listeners
+			// 'load', 'deviceready', 'offline', and 'online'.
+			initialize: function() {
+				document.addEventListener('deviceready', go, false);
+			}
+		}
+        go()
+	</script>
+</body>
+
+</html>

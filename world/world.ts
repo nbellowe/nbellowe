@@ -22,7 +22,7 @@ class World {
     items: Item[] = [];
     size = {x: 720, y: 480}
     renderer = new Renderer("canvas", this.size);
-    intervalMs = 50;
+    intervalMs = 10;
     interval = setInterval(this.onTimeSlice.bind(this), this.intervalMs);
     lastRendered = Date.now();
 
@@ -30,23 +30,43 @@ class World {
 
     constructor() {
         for (var i = 0; i < 20; i++)
-            this.items.push(<Person> randomize(new Person, this.size))
+            this.makeRandomPerson();
     }
     moveAll(ms: number){
         var t = Date.now();
         forEach(this.items,Person, (v:Person) => {
-            this.movePerson(v, ms);
+            this.movePerson(v, sortByDist(v, this.items), ms);
             if(v.death < t)
                 this.items.splice(this.items.indexOf(v), 1) //remove
         });
     }
-    movePerson(v:Person, ms: number){
-        v.move(ms); //move length of time elapsed since last move
-        if(v.x > this.size.x //hit a wall
-        || v.y > this.size.y
-        || v.x < 0
-        || v.y < 0)
-            v.direction = Math.random() * 360; //random dir
+    movePerson(me:Person, distSorted: Person[], ms: number){
+        me.move(ms);                //move length of time elapsed since last move
+        if(me.x > this.size.x       //if we hit a wall
+        || me.y > this.size.y
+        || me.x < 0
+        || me.y < 0)                //just go somewhere
+            me.goRandomDirection();
+
+        var closestPerson = distSorted[1],
+            closestDist = dist(me,closestPerson);
+
+        if(closestDist <= me.size){                //if we hit
+            if(me.gender !== closestPerson.gender) //if its steamy...
+                this.makePerson(me, closestPerson);
+            me.goRandomDirection();
+            closestPerson.goRandomDirection();
+        }
+    }
+
+    makePerson(a,b){
+        var p: Person = <any> randomize(new Person, this.size);
+        p.x = a.x;
+        p.y = a.y;
+        this.items.push(p);
+    }
+    makeRandomPerson(){
+        this.items.push(<Person> randomize(new Person, this.size))
     }
     onTimeSlice(){
         this.renderer.clearScene();
@@ -59,6 +79,21 @@ class World {
 }
 
 enum GENDER { MALE, FEMALE }
+
+function sortByDist(p, ps) {
+    return ps.map((b,i) => ({
+                i: i,
+                val: dist(p, b)
+            }))
+            .sort((a,b) => a.val - b.val)
+            .map(x => ps[x.i]); //back to original
+}
+
+function dist(a, b) {
+  var x = a.x - b.x,
+      y = a.y - b.y;
+  return Math.sqrt(x*x + y*y);
+}
 
 function forEach(arr:Item[], c:any, cb:(x) => any){
     for(var i=0;i< arr.length; i++){
@@ -119,6 +154,9 @@ class Person implements Moving, Lifeform {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI)
         ctx.fill();
+    }
+    goRandomDirection(){
+        this.direction = Math.random() * 360; //random dir
     }
 }
 

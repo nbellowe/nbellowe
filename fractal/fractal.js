@@ -1,4 +1,14 @@
-function makeSlideInput(id, callbackOnChange, min, max) {
+/// <reference path="../libs/three/three.d.ts"/>
+(function (d) {
+    var script = d.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.onload = function () {
+    };
+    script.src = 'http://www.google-analytics.com/ga.js';
+    d.getElementsByTagName('head')[0].appendChild(script);
+}(document));
+function makeSlideInput(id, callbackOnChange, min, max, step) {
     var el = document.getElementById(id);
     if (!el) {
         console.error(id + " doesn't exist");
@@ -6,8 +16,10 @@ function makeSlideInput(id, callbackOnChange, min, max) {
     }
     el.addEventListener("change", function (evt) {
         callbackOnChange(evt.srcElement.value);
-        (new Renderer).render();
+        Render3D.fastRender();
     });
+    if (step)
+        el.step = step;
     el.min = min || "";
     el.max = max || "";
     el.style.width = "500px";
@@ -20,7 +32,7 @@ function makeComboInput(id, callbackOnChange) {
     }
     el.addEventListener("change", function (evt) {
         callbackOnChange(evt.srcElement.value);
-        (new Renderer).render();
+        Render3D.fastRender();
     });
 }
 function update(id, val) {
@@ -87,19 +99,19 @@ var TYPE;
     TYPE[TYPE["JULIA"] = 1] = "JULIA";
     TYPE[TYPE["MANDELBROT"] = 2] = "MANDELBROT";
 })(TYPE || (TYPE = {}));
-var type = TYPE.JULIA2, width = 500, height = 500, iLimit = 1, rLimit = 1, xIncr = 1, yIncr = 1, constantR = -.06, constantI = .67, numBuffered = 10, centerX = 0, centerY = 0, zoom = 1, iterations = 100;
+var type = TYPE.JULIA2, width = 500, height = 500, depth = 1, iLimit = 1, rLimit = 1, xIncr = 1, yIncr = 1, zIncr = 1000, constantR = -.06, constantI = .67, numBuffered = 10, centerX = 0, centerY = 0, centerZ = 0, zoom = 1, iterations = 100;
 makeSlideInput("sizeX", function (val) { width = +val; }, 0, 1000);
 makeSlideInput("sizeY", function (val) { height = +val; }, 0, 1000);
-makeSlideInput("iLimit", function (val) { iLimit = +val; }, -1.01, 1.01);
-makeSlideInput("rLimit", function (val) { rLimit = +val; }, -1.01, 1.01);
+makeSlideInput("iLimit", function (val) { iLimit = +val; }, -1, 1, .01);
+makeSlideInput("rLimit", function (val) { rLimit = +val; }, -1, 1, .01);
 makeSlideInput("xIncr", function (val) { xIncr = +val; }, 1, 10);
 makeSlideInput("yIncr", function (val) { yIncr = +val; }, 1, 10);
-makeSlideInput("constantR", function (val) { constantR = +val; }, -1.01, 1.01);
-makeSlideInput("constantI", function (val) { constantI = +val; }, -1.01, 1.01);
+makeSlideInput("constantR", function (val) { constantR = +val; }, -1, 1, .01);
+makeSlideInput("constantI", function (val) { constantI = +val; }, -1, 1, .01);
 makeSlideInput("iterations", function (val) { iterations = +val; }, 0, 500);
 makeSlideInput("centerX", function (val) { centerX = +val; }, -1000, 1000);
 makeSlideInput("centerY", function (val) { centerY = +val; }, -1000, 1000);
-makeSlideInput("zoom", function (val) { zoom = +val; }, .25, 20);
+makeSlideInput("zoom", function (val) { zoom = +val; }, .25, 20, .1);
 makeComboInput("type", function (val) { type = val; });
 function updateAll() {
     update("sizeX", width);
@@ -115,104 +127,114 @@ function updateAll() {
     update("centerY", centerY);
     update("zoom", zoom);
 }
-var Renderer = (function () {
-    function Renderer() {
-        this.canvas = document.getElementById("fractal");
-        this.ctx = this.canvas.getContext("2d");
-        this.xTor = rLimit * 2 / width;
-        this.yToi = iLimit * 2 / height;
-        this.startingX = 0;
-        this.startingY = 0;
-        this.dragging = false;
-        this.timer = null;
-        updateAll();
-        this.canvas.width = width;
-        this.canvas.height = height;
-        this.canvas.addEventListener("mousedown", this.mousedown.bind(this));
-        this.canvas.addEventListener("wheel", this.onwheel.bind(this));
-        document.addEventListener("click", this.click.bind(this));
-        document.addEventListener("mousemove", this.mousemove.bind(this));
-        this.render();
+var Render3D = (function () {
+    function Render3D() {
     }
-    Renderer.prototype._zoom = function (centerX, centerY, zoom, qualityDecr) {
-        qualityDecr = Math.ceil(qualityDecr || 1);
-        this._render(0, 0, -centerX, -centerY, width, height, xIncr * qualityDecr, yIncr * qualityDecr, this.xTor / zoom, this.yToi / zoom, type);
+    Render3D.fastRender = function () {
+        Render3D.makeRenderTimer(100);
     };
-    Renderer.prototype.mousedown = function (e) {
-        this.dragging = true;
-        this.startingX = e.x;
-        this.startingY = e.y;
+    Render3D.makeRenderTimer = function (time) {
+        clearTimeout(Render3D.timer);
+        Render3D.timer = setTimeout(function () { return Render3D.render(); }, time);
     };
-    Renderer.prototype.mousemove = function (e) {
-        if (!this.dragging)
-            return;
-        centerY -= this.startingY - e.y;
-        centerX -= this.startingX - e.x;
-        this.startingX = e.x;
-        this.startingY = e.y;
-        this.fastRender();
+    Render3D.makeCube = function (x, y, z, sizeX, sizeY, sizeZ, hex) {
+        console.error(arguments);
+        var cube = new THREE.Mesh(new THREE.BoxGeometry(sizeX / 100, sizeY / 100, sizeZ / 100), new THREE.MeshLambertMaterial({ color: hex }));
+        cube.position.x = x;
+        cube.position.y = y;
+        cube.position.z = z;
+        Render3D.scene.add(cube);
     };
-    Renderer.prototype.click = function (e) {
-        document.removeEventListener("mousemove", this.mousemove);
-        document.removeEventListener("click", this.click);
-        this.startingX = null;
-        this.startingY = null;
-        this.dragging = false;
-        this.render();
-    };
-    Renderer.prototype.onwheel = function (e) {
-        var deltaY = 0;
-        e.preventDefault();
-        if (e.deltaY)
-            deltaY = e.deltaY;
-        else if (e.wheelDelta)
-            deltaY = -e.wheelDelta;
-        zoom = Math.max(0.1, zoom * (1 + (deltaY / 100)));
-        this.fastRender();
-    };
-    Renderer.prototype.fastRender = function () {
-        var _this = this;
-        this._zoom(centerX, centerY, zoom, 8);
-        if (!this.timer)
-            this.timer = setTimeout(function () {
-                _this.render();
-            }, 100);
-        else {
-            clearTimeout(this.timer);
-            this.timer = setTimeout(function () {
-                _this.render();
-            }, 100);
+    Render3D.render = function () {
+        updateAll();
+        if (Render3D.timer) {
+            clearTimeout(Render3D.timer);
+            Render3D.timer = null;
         }
-    };
-    Renderer.prototype._render = function (startX, startY, centerX, centerY, endX, endY, stepX, stepY, xTor, yToi, type) {
+        if (!Render3D.initialized) {
+            document.getElementById("fractal").appendChild(Render3D.renderer.domElement);
+            Render3D.initialized = true;
+        }
+        Render3D.renderer.setSize(500, 500);
+        Render3D.camera.position.z = 5;
+        Render3D.scene = new THREE.Scene();
+        var pointLight = new THREE.PointLight(0xFFFFFF);
+        pointLight.position.x = 10;
+        pointLight.position.y = 50;
+        pointLight.position.z = 10;
+        Render3D.scene.add(pointLight);
+        console.time("3dfullRender");
+        var width = Render3D.renderer.domElement.width;
+        var height = Render3D.renderer.domElement.height;
+        var depth = 10;
         var iteratingComplex = new Complex(0, 0);
         var constant = new Complex(constantR, constantI);
         var alg = julia2;
+        var max = 0xFF;
         if (type === TYPE.JULIA)
             alg = julia;
         else if (type === TYPE.MANDELBROT)
             alg = null;
-        for (var x = startX; x < endX; x += stepX)
-            for (var y = startY; y < endY; y += stepY) {
-                iteratingComplex.r = xTor * ((centerX + x) - width / 2);
-                iteratingComplex.i = yToi * ((centerY + y) - height / 2);
-                this.ctx.fillStyle = "hsl(" + Math.round(255 * (alg(iteratingComplex, constant, iterations) / iterations))
-                    + ", 100%, 50%)";
-                this.ctx.fillRect(x, y, stepX, stepY);
-            }
+        var geometry = new THREE.Geometry();
+        for (var i = 3; i < 20000; i++) {
+            var vertex = new THREE.Vector3();
+            vertex.x = i;
+            vertex.y = i;
+            vertex.z = i;
+            geometry.vertices.push(vertex);
+        }
+        var color = [1, 1, 0.5];
+        var size = 5;
+        var material = new THREE.PointsMaterial({ size: size });
+        var particles = new THREE.Points(geometry, material);
+        Render3D.scene.add(particles);
+        this.camera.lookAt(this.scene.position);
+        Render3D.renderer.render(this.scene, this.camera);
+        console.timeEnd("3dfullRender");
     };
-    Renderer.prototype.render = function () {
-        var _this = this;
-        setTimeout(function () {
-            if (_this.timer) {
-                clearTimeout(_this.timer);
-                _this.timer = null;
-            }
-            console.time("fullRender");
-            _this._zoom(centerX, centerY, zoom);
-            console.timeEnd("fullRender");
-        }, 0);
-    };
-    return Renderer;
+    Render3D.initialized = false;
+    Render3D.xTor = rLimit * 2 / width;
+    Render3D.yToi = iLimit * 2 / height;
+    Render3D.zTocr = rLimit * 2 / height;
+    Render3D.startX = 0;
+    Render3D.startY = 0;
+    Render3D.startZ = 0;
+    Render3D.endX = 500;
+    Render3D.endY = 500;
+    Render3D.endZ = 1;
+    Render3D.stepX = 50;
+    Render3D.stepY = 50;
+    Render3D.stepZ = 50;
+    Render3D.timer = null;
+    Render3D.scene = new THREE.Scene();
+    Render3D.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    Render3D.renderer = new THREE.WebGLRenderer();
+    return Render3D;
 })();
-new Renderer;
+function hslToRgb(h, s, l) {
+    var r, g, b;
+    if (s == 0) {
+        r = g = b = l;
+    }
+    else {
+        var hue2rgb = function hue2rgb(p, q, t) {
+            if (t < 0)
+                t += 1;
+            if (t > 1)
+                t -= 1;
+            if (t < 1 / 6)
+                return p + (q - p) * 6 * t;
+            if (t < 1 / 2)
+                return q;
+            if (t < 2 / 3)
+                return p + (q - p) * (2 / 3 - t) * 6;
+            return p;
+        };
+        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        var p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1 / 3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1 / 3);
+    }
+    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+}

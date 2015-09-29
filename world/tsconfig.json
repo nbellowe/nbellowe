@@ -15,8 +15,6 @@
         "!./node_modules/**/*.ts"
     ],
     "files": [
-        "./interface.ts",
-        "./render.ts",
         "./world.ts"
     ]
 }

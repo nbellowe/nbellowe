@@ -3,29 +3,45 @@ var World = (function () {
         this.items = [];
         this.size = { x: 720, y: 480 };
         this.renderer = new Renderer("canvas", this.size);
-        this.intervalMs = 50;
+        this.intervalMs = 10;
         this.interval = setInterval(this.onTimeSlice.bind(this), this.intervalMs);
         this.lastRendered = Date.now();
         this.timesliceListeners = [this.moveAll.bind(this)];
         for (var i = 0; i < 20; i++)
-            this.items.push(randomize(new Person, this.size));
+            this.makeRandomPerson();
     }
     World.prototype.moveAll = function (ms) {
         var _this = this;
         var t = Date.now();
         forEach(this.items, Person, function (v) {
-            _this.movePerson(v, ms);
+            _this.movePerson(v, sortByDist(v, _this.items), ms);
             if (v.death < t)
                 _this.items.splice(_this.items.indexOf(v), 1);
         });
     };
-    World.prototype.movePerson = function (v, ms) {
-        v.move(ms);
-        if (v.x > this.size.x
-            || v.y > this.size.y
-            || v.x < 0
-            || v.y < 0)
-            v.direction = Math.random() * 360;
+    World.prototype.movePerson = function (me, distSorted, ms) {
+        me.move(ms);
+        if (me.x > this.size.x
+            || me.y > this.size.y
+            || me.x < 0
+            || me.y < 0)
+            me.goRandomDirection();
+        var closestPerson = distSorted[1], closestDist = dist(me, closestPerson);
+        if (closestDist <= me.size) {
+            if (me.gender !== closestPerson.gender)
+                this.makePerson(me, closestPerson);
+            me.goRandomDirection();
+            closestPerson.goRandomDirection();
+        }
+    };
+    World.prototype.makePerson = function (a, b) {
+        var p = randomize(new Person, this.size);
+        p.x = a.x;
+        p.y = a.y;
+        this.items.push(p);
+    };
+    World.prototype.makeRandomPerson = function () {
+        this.items.push(randomize(new Person, this.size));
     };
     World.prototype.onTimeSlice = function () {
         this.renderer.clearScene();
@@ -42,6 +58,18 @@ var GENDER;
     GENDER[GENDER["MALE"] = 0] = "MALE";
     GENDER[GENDER["FEMALE"] = 1] = "FEMALE";
 })(GENDER || (GENDER = {}));
+function sortByDist(p, ps) {
+    return ps.map(function (b, i) { return ({
+        i: i,
+        val: dist(p, b)
+    }); })
+        .sort(function (a, b) { return a.val - b.val; })
+        .map(function (x) { return ps[x.i]; });
+}
+function dist(a, b) {
+    var x = a.x - b.x, y = a.y - b.y;
+    return Math.sqrt(x * x + y * y);
+}
 function forEach(arr, c, cb) {
     for (var i = 0; i < arr.length; i++) {
         if (arr[i] instanceof c)
@@ -103,6 +131,9 @@ var Person = (function () {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
         ctx.fill();
+    };
+    Person.prototype.goRandomDirection = function () {
+        this.direction = Math.random() * 360;
     };
     return Person;
 })();
