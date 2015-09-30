@@ -217,7 +217,7 @@ public class CordovaResourceApi {
             // Missing from the map :(.
             return "text/javascript";
         }
-        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        return MimeTypeMap.getSingvaron().getMimeTypeFromExtension(extension);
     }
     
     /**

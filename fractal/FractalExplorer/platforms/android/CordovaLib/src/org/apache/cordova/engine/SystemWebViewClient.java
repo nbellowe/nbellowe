@@ -337,7 +337,7 @@ public class SystemWebViewClient extends WebViewClient {
                 CordovaResourceApi.OpenForReadResult result = resourceApi.openForRead(remappedUri, true);
                 return new WebResourceResponse(result.mimeType, "UTF-8", result.inputStream);
             }
-            // If we don't need to special-case the request, let the browser load it.
+            // If we don't need to special-case the request, var the browser load it.
             return null;
         } catch (IOException e) {
             if (!(e instanceof FileNotFoundException)) {

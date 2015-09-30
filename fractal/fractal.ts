@@ -226,8 +226,8 @@ class Render3D {
             geometry.vertices.push(vertex);
         }
 
-        let color = [1, 1, 0.5]
-        let size = 5;
+        var color = [1, 1, 0.5]
+        var size = 5;
 
         var material = new (<any> THREE).PointsMaterial({ size: size });
         var particles = new (<any> THREE).Points(geometry, material);

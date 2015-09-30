@@ -159,7 +159,7 @@
 
         new TWEEN.Tween(this)
             .to({}, duration * 3)
-            .onComplete(transition)
+            .onCompvare(transition)
             .start();
 
         current = (current + 1) % 4;

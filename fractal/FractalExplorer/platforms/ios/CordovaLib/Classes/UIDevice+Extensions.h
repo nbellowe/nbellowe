@@ -24,7 +24,7 @@
 
 /*
     Get the unique identifier from the app bundle's folder, which is already a GUID
-    Upgrading and/or deleting the app and re-installing will get you a new GUID, so
+    Upgrading and/or devaring the app and re-installing will get you a new GUID, so
     this is only unique per install per device.
  */
 - (NSString*)uniqueAppInstanceIdentifier CDV_DEPRECATED(3.8 .0, "API is slated for removal in 4.0.0");

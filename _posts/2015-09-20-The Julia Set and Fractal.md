@@ -44,7 +44,7 @@ arr2d = [
 ```
 
 # Obviously fractals aren't cool until we see them!
-Lets plot this 2d array. We still need to specify what color to use for each value, but we'll just let the plotter take over that.
+vars plot this 2d array. We still need to specify what color to use for each value, but we'll just var the plotter take over that.
 
 
 ```julia

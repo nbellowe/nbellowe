@@ -57,7 +57,7 @@
     if (!pageLoaded) {
         // query the webview for readystate
         NSString* readyState = [self.webView stringByEvaluatingJavaScriptFromString:@"document.readyState"];
-        pageLoaded = [readyState isEqualToString:@"loaded"] || [readyState isEqualToString:@"complete"];
+        pageLoaded = [readyState isEqualToString:@"loaded"] || [readyState isEqualToString:@"compvare"];
     }
     
     if (pageLoaded) {

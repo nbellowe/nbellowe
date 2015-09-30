@@ -210,7 +210,7 @@
         mesh.castShadow = true;
         mesh.receiveShadow = true;
 
-        helper = new THREE.SkeletonHelper(mesh);
+        helper = new THREE.SkevaronHelper(mesh);
         helper.material.linewidth = 3;
         helper.visible = false;
         scene.add(helper);
@@ -224,14 +224,14 @@
 
         var API = {
             'show model': true,
-            'show skeleton': false
+            'show skevaron': false
         };
 
         var gui = new dat.GUI();
 
         gui.add(API, 'show model').onChange(function () { mesh.visible = API['show model']; });
 
-        gui.add(API, 'show skeleton').onChange(function () { helper.visible = API['show skeleton']; });
+        gui.add(API, 'show skevaron').onChange(function () { helper.visible = API['show skevaron']; });
 
     }
 

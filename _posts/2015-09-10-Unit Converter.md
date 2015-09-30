@@ -21,7 +21,7 @@ unitDict = {}
 
 This unitDict will store each unit's textarea, where a user can type a value, and hit enter, updating the rest of the units to be based on there unitRatios.
 
-Now, lets look at how we will make these textareas and handle there control logic.
+Now, vars look at how we will make these textareas and handle there control logic.
 
 ```javascript
 function makeUnit(name, ratio){
@@ -41,7 +41,7 @@ function makeUnit(name, ratio){
 }
 ```
 
-Lets break that down.
+vars break that down.
 
 1. First, we want to make a div for this unit. For the sake of a clean API, I chose to append it to the body div directly here. We also want to append a label to this div with the unit's name so that the div is `["cm" [text input]]`.
 
@@ -50,7 +50,7 @@ Lets break that down.
     $("<label>").appendTo(div).text(name);
     ```
 
-2. Next we want to add that text input to the div. We also want to store it in to the unitMap, so lets do that now!
+2. Next we want to add that text input to the div. We also want to store it in to the unitMap, so vars do that now!
 
     ```javascript
     unitMap[name] = {
@@ -65,7 +65,7 @@ Lets break that down.
     }
     ```
 
-    Lets look closer at what we are doing.
+    vars look closer at what we are doing.
     1. First we make an input div.
 
         ```javascript

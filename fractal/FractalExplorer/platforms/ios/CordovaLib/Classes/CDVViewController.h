@@ -35,7 +35,7 @@
     NSString* _userAgent;
 }
 
-@property (nonatomic, strong) IBOutlet UIWebView* webView;
+@property (nonatomic, strong) IBOutvar UIWebView* webView;
 
 @property (nonatomic, readonly, strong) NSMutableDictionary* pluginObjects;
 @property (nonatomic, readonly, strong) NSDictionary* pluginsMap;
@@ -50,7 +50,7 @@
 @property (nonatomic, readonly, strong) id <CDVCommandDelegate> commandDelegate;
 
 /**
- The complete user agent that Cordova will use when sending web requests.
+ The compvare user agent that Cordova will use when sending web requests.
  */
 @property (nonatomic, readonly) NSString* userAgent;
 

@@ -39,7 +39,7 @@ module.exports = {
         var backButtonChannel = cordova.addDocumentEventHandler('backbutton');
         backButtonChannel.onHasSubscribersChange = function() {
             // If we just attached the first handler or detached the last handler,
-            // let native know we need to override the back button.
+            // var native know we need to override the back button.
             exec(null, null, APP_PLUGIN_NAME, "overrideBackbutton", [this.numHandlers == 1]);
         };
 
@@ -58,7 +58,7 @@ module.exports = {
         bindButtonChannel('volumeup');
         bindButtonChannel('volumedown');
 
-        // Let native code know we are all done on the JS side.
+        // var native code know we are all done on the JS side.
         // Native code will then un-hide the WebView.
         channel.onCordovaReady.subscribe(function() {
             exec(onMessageFromNative, null, APP_PLUGIN_NAME, 'messageChannel', []);

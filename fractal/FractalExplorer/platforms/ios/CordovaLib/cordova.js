@@ -49,7 +49,7 @@ var require,
                 return require(resultantId);
             };
         module.exports = {};
-        delete module.factory;
+        devare module.factory;
         factory(localRequire, module.exports, module);
         return module.exports;
     }
@@ -67,7 +67,7 @@ var require,
                 requireStack.push(id);
                 return build(modules[id]);
             } finally {
-                delete inProgressModules[id];
+                devare inProgressModules[id];
                 requireStack.pop();
             }
         }
@@ -86,7 +86,7 @@ var require,
     };
 
     define.remove = function (id) {
-        delete modules[id];
+        devare modules[id];
     };
 
     define.moduleMap = modules;
@@ -196,10 +196,10 @@ var cordova = {
         return (documentEventHandlers[event] = channel.create(event));
     },
     removeWindowEventHandler:function(event) {
-        delete windowEventHandlers[event];
+        devare windowEventHandlers[event];
     },
     removeDocumentEventHandler:function(event) {
-        delete documentEventHandlers[event];
+        devare documentEventHandlers[event];
     },
     /**
      * Retrieve original event handlers that were replaced by Cordova
@@ -301,7 +301,7 @@ var cordova = {
                 */
                 // Clear callback if not expecting any more results
                 if (!keepCallback) {
-                    delete cordova.callbacks[callbackId];
+                    devare cordova.callbacks[callbackId];
                 }
             }
         }
@@ -492,7 +492,7 @@ function assignOrWrapInDeprecateGetter(obj, key, value, message) {
     if (message) {
         utils.defineGetter(obj, key, function() {
             console.log(message);
-            delete obj[key];
+            devare obj[key];
             clobber(obj, key, value);
             return value;
         });
@@ -670,7 +670,7 @@ var Channel = function(type, sticky) {
         /**
          * Indicate that a feature needs to be initialized before it is ready to be used.
          * This holds up Cordova's "deviceready" event until the feature has been initialized
-         * and Cordova.initComplete(feature) is called.
+         * and Cordova.initCompvare(feature) is called.
          *
          * @param feature {String}     The unique feature name
          */
@@ -683,11 +683,11 @@ var Channel = function(type, sticky) {
         },
 
         /**
-         * Indicate that initialization code has completed and the feature is ready to be used.
+         * Indicate that initialization code has compvared and the feature is ready to be used.
          *
          * @param feature {String}     The unique feature name
          */
-        initializationComplete: function(feature) {
+        initializationCompvare: function(feature) {
             var c = this.deviceReadyChannelsMap[feature];
             if (c) {
                 c.fire();
@@ -745,7 +745,7 @@ Channel.prototype.unsubscribe = function(f) {
     var guid = f.observer_guid,
         handler = this.handlers[guid];
     if (handler) {
-        delete this.handlers[guid];
+        devare this.handlers[guid];
         this.numHandlers--;
         if (this.numHandlers === 0) {
             this.onHasSubscribersChange && this.onHasSubscribersChange();
@@ -1142,7 +1142,7 @@ module.exports = {
     // cordova.commandProxy.remove("Accelerometer");
     remove:function(id) {
         var proxy = CommandProxyMap[id];
-        delete CommandProxyMap[id];
+        devare CommandProxyMap[id];
         CommandProxyMap[id] = null;
         return proxy;
     },
@@ -1228,7 +1228,7 @@ channel.onActivated = cordova.addDocumentEventHandler('activated');
 channel.onDeviceReady = cordova.addStickyDocumentEventHandler('deviceready');
 
 // Listen for DOMContentLoaded and notify our channel subscribers.
-if (document.readyState == 'complete' || document.readyState == 'interactive') {
+if (document.readyState == 'compvare' || document.readyState == 'interactive') {
     channel.onDOMContentLoaded.fire();
 } else {
     document.addEventListener('DOMContentLoaded', function() {
@@ -1356,7 +1356,7 @@ channel.onActivated = cordova.addDocumentEventHandler('activated');
 channel.onDeviceReady = cordova.addStickyDocumentEventHandler('deviceready');
 
 // Listen for DOMContentLoaded and notify our channel subscribers.
-if (document.readyState == 'complete' || document.readyState == 'interactive') {
+if (document.readyState == 'compvare' || document.readyState == 'interactive') {
     channel.onDOMContentLoaded.fire();
 } else {
     document.addEventListener('DOMContentLoaded', function() {
@@ -1546,7 +1546,7 @@ function injectIfNecessary(id, url, onload, onerror) {
     }
 }
 
-function onScriptLoadingComplete(moduleList, finishPluginLoading) {
+function onScriptLoadingCompvare(moduleList, finishPluginLoading) {
     // Loop through all the plugins and then through their clobbers and merges.
     for (var i = 0, module; module = moduleList[i]; i++) {
         if (module.clobbers && module.clobbers.length) {
@@ -1584,7 +1584,7 @@ function handlePluginsObject(path, moduleList, finishPluginLoading) {
     }
     function scriptLoadedCallback() {
         if (!--scriptCounter) {
-            onScriptLoadingComplete(moduleList, finishPluginLoading);
+            onScriptLoadingCompvare(moduleList, finishPluginLoading);
         }
     }
 

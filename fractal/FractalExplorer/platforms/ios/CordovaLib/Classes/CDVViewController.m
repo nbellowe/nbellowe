@@ -664,7 +664,7 @@
 - (void)viewDidUnload
 {
     // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    // e.g. self.myOutvar = nil;
 
     self.webView.delegate = nil;
     self.webView = nil;
@@ -779,7 +779,7 @@
     }
 
     /*
-     *    If we loaded the HTML from a string, we let the app handle it
+     *    If we loaded the HTML from a string, we var the app handle it
      */
     else if (self.loadFromString == YES) {
         self.loadFromString = NO;
@@ -787,7 +787,7 @@
     }
 
     /*
-     * all tel: scheme urls we let the UIWebview handle it using the default behavior
+     * all tel: scheme urls we var the UIWebview handle it using the default behavior
      */
     else if ([[url scheme] isEqualToString:@"tel"]) {
         return YES;
@@ -947,7 +947,7 @@
 #pragma mark UIApplicationDelegate impl
 
 /*
- This method lets your application know that it is about to be terminated and purged from memory entirely
+ This method vars your application know that it is about to be terminated and purged from memory entirely
  */
 - (void)onAppWillTerminate:(NSNotification*)notification
 {
@@ -965,13 +965,13 @@
         NSString* filePath = [tempDirectoryPath stringByAppendingPathComponent:fileName];
         result = [fileMgr removeItemAtPath:filePath error:&err];
         if (!result && err) {
-            NSLog(@"Failed to delete: %@ (error: %@)", filePath, err);
+            NSLog(@"Failed to devare: %@ (error: %@)", filePath, err);
         }
     }
 }
 
 /*
- This method is called to let your application know that it is about to move from the active to inactive state.
+ This method is called to var your application know that it is about to move from the active to inactive state.
  You should use this method to pause ongoing tasks, disable timer, ...
  */
 - (void)onAppWillResignActive:(NSNotification*)notification
@@ -998,7 +998,7 @@
     } 
 }
 
-// This method is called to let your application know that it moved from the inactive to active state.
+// This method is called to var your application know that it moved from the inactive to active state.
 - (void)onAppDidBecomeActive:(NSNotification*)notification
 {
     // NSLog(@"%@",@"applicationDidBecomeActive");
@@ -1030,7 +1030,7 @@
     if (!pageLoaded) {
         // query the webview for readystate
         NSString* readyState = [webView stringByEvaluatingJavaScriptFromString:@"document.readyState"];
-        pageLoaded = [readyState isEqualToString:@"loaded"] || [readyState isEqualToString:@"complete"];
+        pageLoaded = [readyState isEqualToString:@"loaded"] || [readyState isEqualToString:@"compvare"];
     }
 
     if (pageLoaded) {

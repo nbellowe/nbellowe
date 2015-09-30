@@ -29,7 +29,7 @@ jasmine.undefined = jasmine.___undefined___;
 jasmine.VERBOSE = false;
 
 /**
- * Default interval in milliseconds for event loop yields (e.g. to allow network activity or to refresh the screen with the HTML-based runner). Small values here may result in slow test running. Zero means no updates until all tests have completed.
+ * Default interval in milliseconds for event loop yields (e.g. to allow network activity or to refresh the screen with the HTML-based runner). Small values here may result in slow test running. Zero means no updates until all tests have compvared.
  *
  */
 jasmine.DEFAULT_UPDATE_INTERVAL = 250;
@@ -900,8 +900,8 @@ jasmine.Env.prototype.compareObjects_ = function(a, b, mismatchKeys, mismatchVal
     mismatchValues.push("arrays were not the same length");
   }
 
-  delete a.__Jasmine_been_here_before__;
-  delete b.__Jasmine_been_here_before__;
+  devare a.__Jasmine_been_here_before__;
+  devare b.__Jasmine_been_here_before__;
   return (mismatchKeys.length === 0 && mismatchValues.length === 0);
 };
 
@@ -1019,13 +1019,13 @@ jasmine.Block = function(env, func, spec) {
   this.spec = spec;
 };
 
-jasmine.Block.prototype.execute = function(onComplete) {  
+jasmine.Block.prototype.execute = function(onCompvare) {  
   try {
     this.func.apply(this.spec);
   } catch (e) {
     this.spec.fail(e);
   }
-  onComplete();
+  onCompvare();
 };
 /** JavaScript API reporter.
  *
@@ -1875,7 +1875,7 @@ jasmine.PrettyPrinter.prototype.format = function(value) {
       } else {
         this.emitObject(value);
       }
-      delete value.__Jasmine_been_here_before__;
+      devare value.__Jasmine_been_here_before__;
     } else {
       this.emitScalar(value.toString());
     }
@@ -1972,9 +1972,9 @@ jasmine.Queue.prototype.insertNext = function(block) {
   this.offset++;
 };
 
-jasmine.Queue.prototype.start = function(onComplete) {
+jasmine.Queue.prototype.start = function(onCompvare) {
   this.running = true;
-  this.onComplete = onComplete;
+  this.onCompvare = onCompvare;
   this.next_();
 };
 
@@ -1993,11 +1993,11 @@ jasmine.Queue.prototype.next_ = function() {
     
     if (self.index < self.blocks.length && !this.abort) {
       var calledSynchronously = true;
-      var completedSynchronously = false;
+      var compvaredSynchronously = false;
 
-      var onComplete = function () {
+      var onCompvare = function () {
         if (jasmine.Queue.LOOP_DONT_RECURSE && calledSynchronously) {
-          completedSynchronously = true;
+          compvaredSynchronously = true;
           return;
         }
 
@@ -2015,24 +2015,24 @@ jasmine.Queue.prototype.next_ = function() {
             self.next_();
           }, 0);
         } else {
-          if (jasmine.Queue.LOOP_DONT_RECURSE && completedSynchronously) {
+          if (jasmine.Queue.LOOP_DONT_RECURSE && compvaredSynchronously) {
             goAgain = true;
           } else {
             self.next_();
           }
         }
       };
-      self.blocks[self.index].execute(onComplete);
+      self.blocks[self.index].execute(onCompvare);
 
       calledSynchronously = false;
-      if (completedSynchronously) {
-        onComplete();
+      if (compvaredSynchronously) {
+        onCompvare();
       }
       
     } else {
       self.running = false;
-      if (self.onComplete) {
-        self.onComplete();
+      if (self.onCompvare) {
+        self.onCompvare();
       }
     }
   }
@@ -2272,11 +2272,11 @@ jasmine.Spec.prototype.finishCallback = function() {
   this.env.reporter.reportSpecResults(this);
 };
 
-jasmine.Spec.prototype.finish = function(onComplete) {
+jasmine.Spec.prototype.finish = function(onCompvare) {
   this.removeAllSpies();
   this.finishCallback();
-  if (onComplete) {
-    onComplete();
+  if (onCompvare) {
+    onCompvare();
   }
 };
 
@@ -2288,11 +2288,11 @@ jasmine.Spec.prototype.after = function(doAfter) {
   }
 };
 
-jasmine.Spec.prototype.execute = function(onComplete) {
+jasmine.Spec.prototype.execute = function(onCompvare) {
   var spec = this;
   if (!spec.env.specFilter(spec)) {
     spec.results_.skipped = true;
-    spec.finish(onComplete);
+    spec.finish(onCompvare);
     return;
   }
 
@@ -2303,7 +2303,7 @@ jasmine.Spec.prototype.execute = function(onComplete) {
   spec.addBeforesAndAftersToQueue();
 
   spec.queue.start(function () {
-    spec.finish(onComplete);
+    spec.finish(onCompvare);
   });
 };
 
@@ -2400,11 +2400,11 @@ jasmine.Suite.prototype.getFullName = function() {
   return fullName;
 };
 
-jasmine.Suite.prototype.finish = function(onComplete) {
+jasmine.Suite.prototype.finish = function(onCompvare) {
   this.env.reporter.reportSuiteResults(this);
   this.finished = true;
-  if (typeof(onComplete) == 'function') {
-    onComplete();
+  if (typeof(onCompvare) == 'function') {
+    onCompvare();
   }
 };
 
@@ -2445,10 +2445,10 @@ jasmine.Suite.prototype.children = function() {
   return this.children_;
 };
 
-jasmine.Suite.prototype.execute = function(onComplete) {
+jasmine.Suite.prototype.execute = function(onCompvare) {
   var self = this;
   this.queue.start(function () {
-    self.finish(onComplete);
+    self.finish(onCompvare);
   });
 };
 jasmine.WaitsBlock = function(env, timeout, spec) {
@@ -2458,12 +2458,12 @@ jasmine.WaitsBlock = function(env, timeout, spec) {
 
 jasmine.util.inherit(jasmine.WaitsBlock, jasmine.Block);
 
-jasmine.WaitsBlock.prototype.execute = function (onComplete) {
+jasmine.WaitsBlock.prototype.execute = function (onCompvare) {
   if (jasmine.VERBOSE) {
     this.env.reporter.log('>> Jasmine waiting for ' + this.timeout + ' ms...');
   }
   this.env.setTimeout(function () {
-    onComplete();
+    onCompvare();
   }, this.timeout);
 };
 /**
@@ -2488,7 +2488,7 @@ jasmine.util.inherit(jasmine.WaitsForBlock, jasmine.Block);
 
 jasmine.WaitsForBlock.TIMEOUT_INCREMENT = 10;
 
-jasmine.WaitsForBlock.prototype.execute = function(onComplete) {
+jasmine.WaitsForBlock.prototype.execute = function(onCompvare) {
   if (jasmine.VERBOSE) {
     this.env.reporter.log('>> Jasmine waiting for ' + (this.message || 'something to happen'));
   }
@@ -2497,12 +2497,12 @@ jasmine.WaitsForBlock.prototype.execute = function(onComplete) {
     latchFunctionResult = this.latchFunction.apply(this.spec);
   } catch (e) {
     this.spec.fail(e);
-    onComplete();
+    onCompvare();
     return;
   }
 
   if (latchFunctionResult) {
-    onComplete();
+    onCompvare();
   } else if (this.totalTimeSpentWaitingForLatch >= this.timeout) {
     var message = 'timed out after ' + this.timeout + ' msec waiting for ' + (this.message || 'something to happen');
     this.spec.fail({
@@ -2511,12 +2511,12 @@ jasmine.WaitsForBlock.prototype.execute = function(onComplete) {
     });
 
     this.abort = true;
-    onComplete();
+    onCompvare();
   } else {
     this.totalTimeSpentWaitingForLatch += jasmine.WaitsForBlock.TIMEOUT_INCREMENT;
     var self = this;
     this.env.setTimeout(function() {
-      self.execute(onComplete);
+      self.execute(onCompvare);
     }, jasmine.WaitsForBlock.TIMEOUT_INCREMENT);
   }
 };

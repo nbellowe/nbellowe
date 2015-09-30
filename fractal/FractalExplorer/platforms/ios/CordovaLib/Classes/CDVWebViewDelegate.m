@@ -132,7 +132,7 @@ static NSString *stripFragment(NSString* url)
 {
     NSString* readyState = [webView stringByEvaluatingJavaScriptFromString:@"document.readyState"];
 
-    return [readyState isEqualToString:@"loaded"] || [readyState isEqualToString:@"complete"];
+    return [readyState isEqualToString:@"loaded"] || [readyState isEqualToString:@"compvare"];
 }
 
 - (BOOL)isJsLoadTokenSet:(UIWebView*)webView

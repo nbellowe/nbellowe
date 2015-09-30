@@ -71,7 +71,7 @@ class World {
     onTimeSlice(){
         this.renderer.clearScene();
         var msElapsed = this.lastRendered - Date.now();
-        for (let i = 0; i < this.timesliceListeners.length; i++)
+        for (var i = 0; i < this.timesliceListeners.length; i++)
             this.timesliceListeners[i](msElapsed);
         this.renderer.render(this.items);
         this.lastRendered = Date.now();

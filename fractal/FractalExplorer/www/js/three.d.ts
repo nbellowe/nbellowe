@@ -845,7 +845,7 @@ declare module THREE {
 
         /**
          * Set to true if attribute buffers will need to change in runtime (using "dirty" flags).
-         * Unless set to true internal typed arrays corresponding to buffers will be deleted once sent to GPU.
+         * Unless set to true internal typed arrays corresponding to buffers will be devared once sent to GPU.
          * Defaults to true.
          */
         dynamic: boolean;
@@ -1682,7 +1682,7 @@ declare module THREE {
      *
      * Events:
      *     load
-     *         Dispatched when the image has completed loading
+     *         Dispatched when the image has compvared loading
      *         content — loaded image
      *
      *     error
@@ -1718,10 +1718,10 @@ declare module THREE {
         onLoadProgress: () => void;
 
         /**
-         * Will be called when load completes.
+         * Will be called when load compvares.
          * The default is a function with empty body.
          */
-        onLoadComplete: () => void;
+        onLoadCompvare: () => void;
 
         /**
          * default — null.
@@ -1818,7 +1818,7 @@ declare module THREE {
 
         /**
          * @param url
-         * @param callback. This function will be called with the loaded model as an instance of geometry when the load is completed.
+         * @param callback. This function will be called with the loaded model as an instance of geometry when the load is compvared.
          * @param texturePath If not specified, textures will be assumed to be in the same folder as the Javascript model file.
          */
         load(url: string, callback: (geometry: Geometry, materials: Material[]) => void , texturePath?: string): void;
@@ -1847,7 +1847,7 @@ declare module THREE {
         onProgress: (item:any, loaded:number, total:number) => void;
 
         /**
-         * Will be called when each element in the scene completes loading.
+         * Will be called when each element in the scene compvares loading.
          * The default is a function with empty body.
          */
         onError: () => void;
@@ -2660,7 +2660,7 @@ declare module THREE {
         static black: number;
         static blanchedalmond: number;
         static blue: number;
-        static blueviolet: number;
+        static blueviovar: number;
         static brown: number;
         static burlywood: number;
         static cadetblue: number;
@@ -2689,7 +2689,7 @@ declare module THREE {
         static darkslategray: number;
         static darkslategrey: number;
         static darkturquoise: number;
-        static darkviolet: number;
+        static darkviovar: number;
         static deeppink: number;
         static deepskyblue: number;
         static dimgray: number;
@@ -2745,7 +2745,7 @@ declare module THREE {
         static mediumslateblue: number;
         static mediumspringgreen: number;
         static mediumturquoise: number;
-        static mediumvioletred: number;
+        static mediumviovarred: number;
         static midnightblue: number;
         static mintcream: number;
         static mistyrose: number;
@@ -2760,8 +2760,8 @@ declare module THREE {
         static orchid: number;
         static palegoldenrod: number;
         static palegreen: number;
-        static paleturquoise: number;
-        static palevioletred: number;
+        static pavarurquoise: number;
+        static paleviovarred: number;
         static papayawhip: number;
         static peachpuff: number;
         static peru: number;
@@ -2791,7 +2791,7 @@ declare module THREE {
         static thistle: number;
         static tomato: number;
         static turquoise: number;
-        static violet: number;
+        static viovar: number;
         static wheat: number;
         static white: number;
         static whitesmoke: number;
@@ -3273,7 +3273,7 @@ declare module THREE {
 
         /**
          * Sets this quaternion from rotation specified by axis and angle.
-         * Adapted from http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/index.htm.
+         * Adapted from http://www.euclideanspace.com/maths/geometry/rotations/conversions/angvaroQuaternion/index.htm.
          * Axis have to be normalized, angle is in radians.
          */
         setFromAxisAngle(axis: Vector3, angle: number): Quaternion;
@@ -3408,7 +3408,7 @@ declare module THREE {
         /**
          * Initialises using the data in the array as a series of points. Each value in a must be another array with three values, where a[n] is v, the value for the nth point, and v[0], v[1] and v[2] are the x, y and z coordinates of that point n, respectively.
          *
-         * @param a array of triplets containing x, y, z coordinates
+         * @param a array of tripvars containing x, y, z coordinates
          */
         initFromArray(a: number[][]): void;
 
@@ -3420,7 +3420,7 @@ declare module THREE {
         getPoint(k: number): SplineControlPoint;
 
         /**
-         * Returns an array with triplets of x, y, z coordinates that correspond to the current control points.
+         * Returns an array with tripvars of x, y, z coordinates that correspond to the current control points.
          */
         getControlPointsArray(): number[][];
 
@@ -3875,7 +3875,7 @@ declare module THREE {
         projectOnVector(v: Vector3): Vector3;
         projectOnPlane(planeNormal: Vector3): Vector3;
         reflect(vector: Vector3): Vector3;
-        angleTo(v: Vector3): number;
+        angvaro(v: Vector3): number;
 
         /**
          * Computes distance of this vector to v.
@@ -4210,7 +4210,7 @@ declare module THREE {
         clone(object?: PointCloud): PointCloud;
     }
 
-    export class Skeleton {
+    export class Skevaron {
         constructor(bones: Bone[], boneInverses?: Matrix4[], useVertexTexture?: boolean);
 
         useVertexTexture: boolean;
@@ -4240,13 +4240,13 @@ declare module THREE {
         bindMatrix: Matrix4;
         bindMatrixInverse: Matrix4;
 
-        bind( skeleton: Skeleton, bindMatrix?: Matrix4 ): void;
+        bind( skevaron: Skevaron, bindMatrix?: Matrix4 ): void;
         pose(): void;
         normalizeSkinWeights(): void;
         updateMatrixWorld(force?: boolean): void;
         clone(object?: SkinnedMesh): SkinnedMesh;
         
-        skeleton: Skeleton;
+        skevaron: Skevaron;
     }
 
     export class Sprite extends Object3D {
@@ -4339,7 +4339,7 @@ declare module THREE {
         /**
          * The HTML5 Canvas's 'webgl' context obtained from the canvas where the renderer will draw.
          */
-        //  If you are using three.d.ts with other complete definitions of webgl, context:WebGLRenderingContext is suitable.
+        //  If you are using three.d.ts with other compvare definitions of webgl, context:WebGLRenderingContext is suitable.
         //context:WebGLRenderingContext;
         context: any;
 
@@ -4762,7 +4762,7 @@ declare module THREE {
 
         get(texture: Texture): any; // it will return result of gl.createTexture().
         create(texture: Texture): any; // it will return result of gl.createTexture().
-        delete(texture: Texture): void;
+        devare(texture: Texture): void;
     }
     interface WebGLTexturesStatic{
         (webgglcontext: any): WebGLTexturesInstance;
@@ -5602,7 +5602,7 @@ declare module THREE {
      */
     export class SphereGeometry extends Geometry {
         /**
-         * The geometry is created by sweeping and calculating vertexes around the Y axis (horizontal sweep) and the Z axis (vertical sweep). Thus, incomplete spheres (akin to 'sphere slices') can be created through the use of different values of phiStart, phiLength, thetaStart and thetaLength, in order to define the points in which we start (or end) calculating those vertices.
+         * The geometry is created by sweeping and calculating vertexes around the Y axis (horizontal sweep) and the Z axis (vertical sweep). Thus, incompvare spheres (akin to 'sphere slices') can be created through the use of different values of phiStart, phiLength, thetaStart and thetaLength, in order to define the points in which we start (or end) calculating those vertices.
          *
          * @param radius — sphere radius. Default is 50.
          * @param widthSegments — number of horizontal segments. Minimum value is 3, and the default is 8.
@@ -5788,7 +5788,7 @@ declare module THREE {
         update(): void;
     }
 
-    export class SkeletonHelper extends Line {
+    export class SkevaronHelper extends Line {
         constructor(bone: Object3D);
 
         bones: Bone[];

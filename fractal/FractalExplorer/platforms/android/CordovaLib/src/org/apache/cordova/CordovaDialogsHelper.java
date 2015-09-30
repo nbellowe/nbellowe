@@ -39,7 +39,7 @@ public class CordovaDialogsHelper {
         AlertDialog.Builder dlg = new AlertDialog.Builder(context);
         dlg.setMessage(message);
         dlg.setTitle("Alert");
-        //Don't let alerts break the back button
+        //Don't var alerts break the back button
         dlg.setCancelable(true);
         dlg.setPositiveButton(android.R.string.ok,
                 new AlertDialog.OnClickListener() {

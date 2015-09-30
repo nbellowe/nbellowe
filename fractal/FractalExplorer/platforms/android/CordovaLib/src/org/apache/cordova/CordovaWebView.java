@@ -135,7 +135,7 @@ public interface CordovaWebView {
 
     String getUrl();
 
-    // TODO: Work on deleting these by removing refs from plugins.
+    // TODO: Work on devaring these by removing refs from plugins.
     Context getContext();
     void loadUrl(String url);
     Object postMessage(String id, Object data);

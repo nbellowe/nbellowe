@@ -18,5 +18,5 @@
  */
 
 // This file was emptied out in 3.6.0 release (July 2014).
-// It will be deleted in a future release.
+// It will be devared in a future release.
 #import <CoreLocation/CoreLocation.h>

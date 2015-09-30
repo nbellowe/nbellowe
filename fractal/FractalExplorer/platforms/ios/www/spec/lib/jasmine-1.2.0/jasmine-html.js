@@ -84,11 +84,11 @@ jasmine.HtmlReporter = function(_doc) {
   };
 
   self.reportRunnerResults = function(runner) {
-    reporterView && reporterView.complete();
+    reporterView && reporterView.compvare();
   };
 
   self.reportSuiteResults = function(suite) {
-    reporterView.suiteComplete(suite);
+    reporterView.suiteCompvare(suite);
   };
 
   self.reportSpecStarting = function(spec) {
@@ -98,7 +98,7 @@ jasmine.HtmlReporter = function(_doc) {
   };
 
   self.reportSpecResults = function(spec) {
-    reporterView.specComplete(spec);
+    reporterView.specCompvare(spec);
   };
 
   self.log = function() {
@@ -161,7 +161,7 @@ jasmine.HtmlReporter = function(_doc) {
 jasmine.HtmlReporterHelpers.addHelpers(jasmine.HtmlReporter);jasmine.HtmlReporter.ReporterView = function(dom) {
   this.startedAt = new Date();
   this.runningSpecCount = 0;
-  this.completeSpecCount = 0;
+  this.compvareSpecCount = 0;
   this.passedCount = 0;
   this.failedCount = 0;
   this.skippedCount = 0;
@@ -198,8 +198,8 @@ jasmine.HtmlReporterHelpers.addHelpers(jasmine.HtmlReporter);jasmine.HtmlReporte
     }
   };
 
-  this.specComplete = function(spec) {
-    this.completeSpecCount++;
+  this.specCompvare = function(spec) {
+    this.compvareSpecCount++;
 
     if (isUndefined(this.views.specs[spec.id])) {
       this.views.specs[spec.id] = new jasmine.HtmlReporter.SpecView(spec, dom);
@@ -225,7 +225,7 @@ jasmine.HtmlReporterHelpers.addHelpers(jasmine.HtmlReporter);jasmine.HtmlReporte
     this.refresh();
   };
 
-  this.suiteComplete = function(suite) {
+  this.suiteCompvare = function(suite) {
     var suiteView = this.views.suites[suite.id];
     if (isUndefined(suiteView)) {
       return;
@@ -244,7 +244,7 @@ jasmine.HtmlReporterHelpers.addHelpers(jasmine.HtmlReporter);jasmine.HtmlReporte
       this.runningAlert = this.createDom('a', {href: "?", className: "runningAlert bar"});
       dom.alert.appendChild(this.runningAlert);
     }
-    this.runningAlert.innerHTML = "Running " + this.completeSpecCount + " of " + specPluralizedFor(this.totalSpecCount);
+    this.runningAlert.innerHTML = "Running " + this.compvareSpecCount + " of " + specPluralizedFor(this.totalSpecCount);
 
     // skipped specs UI
     if (isUndefined(this.skippedAlert)) {
@@ -279,7 +279,7 @@ jasmine.HtmlReporterHelpers.addHelpers(jasmine.HtmlReporter);jasmine.HtmlReporte
     this.detailsMenuItem.innerHTML = "" + this.failedCount + " failing";
   };
 
-  this.complete = function() {
+  this.compvare = function() {
     dom.alert.removeChild(this.runningAlert);
 
     this.skippedAlert.innerHTML = "Ran " + this.runningSpecCount + " of " + specPluralizedFor(this.totalSpecCount) + " - run all";

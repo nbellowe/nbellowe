@@ -154,7 +154,7 @@ module.exports.check_all = function() {
         });
     }, Q())
     .then(function () {
-        // When chain is completed, return requirements array to upstream API
+        // When chain is compvared, return requirements array to upstream API
         return result;
     });
 };

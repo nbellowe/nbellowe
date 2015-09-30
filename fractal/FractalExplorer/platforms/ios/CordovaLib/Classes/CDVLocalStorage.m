@@ -166,13 +166,13 @@
     }
 
     // create path to dest
-    if (!destExists && ![fileManager createDirectoryAtPath:[dest stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:error]) {
+    if (!destExists && ![fileManager createDirectoryAtPath:[dest stringByDevaringLastPathComponent] withIntermediateDirectories:YES attributes:nil error:error]) {
         return NO;
     }
 
     // copy src to dest
     if ([fileManager copyItemAtPath:src toPath:dest error:error]) {
-        // success - cleanup - delete the backup to the dest
+        // success - cleanup - devare the backup to the dest
         if ([fileManager fileExistsAtPath:tempBackup]) {
             [fileManager removeItemAtPath:tempBackup error:error];
         }
@@ -180,7 +180,7 @@
     } else {
         // failure - we restore the temp backup file to dest
         [fileManager copyItemAtPath:tempBackup toPath:dest error:error];
-        // cleanup - delete the backup to the dest
+        // cleanup - devare the backup to the dest
         if ([fileManager fileExistsAtPath:tempBackup]) {
             [fileManager removeItemAtPath:tempBackup error:error];
         }
@@ -279,7 +279,7 @@
 + (void)__verifyAndFixDatabaseLocations
 {
     NSBundle* mainBundle = [NSBundle mainBundle];
-    NSString* bundlePath = [[mainBundle bundlePath] stringByDeletingLastPathComponent];
+    NSString* bundlePath = [[mainBundle bundlePath] stringByDevaringLastPathComponent];
     NSString* bundleIdentifier = [[mainBundle infoDictionary] objectForKey:@"CFBundleIdentifier"];
     NSString* appPlistPath = [bundlePath stringByAppendingPathComponent:[NSString stringWithFormat:@"Library/Preferences/%@.plist", bundleIdentifier]];
 

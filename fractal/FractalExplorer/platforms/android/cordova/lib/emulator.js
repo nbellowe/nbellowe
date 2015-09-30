@@ -205,7 +205,7 @@ module.exports.start = function(emulator_ID) {
         process.stdout.write('Booting up emulator (this may take a while)...');
         return self.wait_for_boot(emulator_id);
     }).then(function() {
-        console.log('BOOT COMPLETE');
+        console.log('BOOT COMPvarE');
 
         //unlock screen
         return exec('adb -s ' + emulator_id + ' shell input keyevent 82', os.tmpdir());
@@ -253,7 +253,7 @@ module.exports.wait_for_boot = function(emulator_id) {
 
 /*
  * Create avd
- * TODO : Enter the stdin input required to complete the creation of an avd.
+ * TODO : Enter the stdin input required to compvare the creation of an avd.
  * Returns a promise.
  */
 module.exports.create_image = function(name, target) {
