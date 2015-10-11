@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Sorting Algorithms
+title: Sorting Algorithms - TODO
 permalink: sorting.html
 ---
 
@@ -12,7 +12,5 @@ permalink: sorting.html
 </select><br>
 
 <canvas id="animation" width="500px" height="500px"/>
-
-
 
 <script src="/sort.js">
