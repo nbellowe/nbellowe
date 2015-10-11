@@ -1,6 +1,6 @@
 ---
 layout: page
-title: World simulation -- In progress
+title: In Progress -- World simulation
 permalink: world.html
 ---
 #In progress --

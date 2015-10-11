@@ -24,10 +24,13 @@ Of course, the uses of remote machines are limitless, and if you have access to 
 
 In the end, I have the ability to fire up in a single script all the browsers on all of the VMs.
 
+&Oh no my markdown tables don't work& TODO
+---------------------------------------------------
 | OS | Chrome | Opera | Firefox | IE | Safari |
------------------
+---------------------------------------------------
 | Linux | X | X | X | | |
-
+---------------------------------------------------
 | Windows | X | X | X | X | |
-
+---------------------------------------------------
 | Max | X | X | X | | X |
+---------------------------------------------------

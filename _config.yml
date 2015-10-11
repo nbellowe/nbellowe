@@ -30,11 +30,6 @@ author:
   name:              Nathan Bellowe
   email:             nbellowe@gmail.com
 
-pages_list:
-  Home: '/index.html'
-  About: '/about.html'
-  Tags: '/tags.html'
-
 # Custom vars
 version:             1.0.0
 github:
