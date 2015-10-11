@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Sorting Algorithms - TODO
+title: Sorting Algorithms -- In Progress
 permalink: sorting.html
 ---
 
