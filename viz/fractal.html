@@ -1,0 +1,77 @@
+---
+layout: project
+title: Julia Fractal
+permalink: fractal.html
+---
+
+<div id="fractal"></div>
+<br>
+
+<label>Fractal type </label>
+<select id="type">
+	<option value="julia2">Julia (optimized)</option>
+	<option value="julia">Julia(not-optimized)</option>
+</select>
+<br>
+
+<label>Color Scale </label>
+<select id="">
+	<option value="hsv" />Altering H of HSV</option>
+</select>
+<br>
+
+<label>Width</label>
+<input type="range" style="float:right" id="sizeX" />
+<br>
+
+<label>Height</label>
+<input type="range" style="float:right" id="sizeY" />
+<br>
+
+<label>XIncr</label>
+<input type="range" style="float:right" id="xIncr" />
+<br>
+
+<label>YIncr</label>
+<input type="range" style="float:right" id="yIncr" />
+<br>
+
+<label>i Limit</label>
+<input type="range" style="float:right" id="iLimit" />
+<br>
+
+<label>r Limit</label>
+<input type="range" style="float:right" id="rLimit" />
+<br>
+
+<label>ConstantR</label>
+<input type="range" style="float:right" id="constantR" />
+<br>
+
+<label>ConstantI</label>
+<input type="range" style="float:right" id="constantI" />
+<br>
+
+<label>Iterations</label>
+<input type="range" style="float:right" id="iterations" />
+<br>
+
+<label>CenterX</label>
+<input type="range" style="float:right" id="centerX" />
+<br>
+
+<label>CenterY</label>
+<input type="range" style="float:right" id="centerY" />
+<br>
+
+<label>Zoom</label>
+<input type="range" style="float:right" id="zoom" />
+<br>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r72/three.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="./fractal/fractal.js"></script>
+
+<script>Render3D.render()</script>
+
+I"m adapting the code in my Julia fractal post, and making it more configurable. Its pretty slow unfortunately. :(  It'll get better when I put some more time into it!

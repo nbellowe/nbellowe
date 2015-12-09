@@ -1,0 +1,252 @@
+---
+layout: default
+title: Sorting Algorithms 2
+permalink: sorting2.html
+---
+
+<link rel="stylesheet" href="./sorting.css">
+<script src="./jquery-2.1.3.min.js"></script>
+<script src="./jquery-ui.js"></script>
+<script src="./d3.v3.js"></script>
+<script src="./viz.js"></script>
+<script src="./common.js"></script>
+<script src="./sorting.js"></script>
+<div id="top-bar">
+	</a>&nbsp;&nbsp;&nbsp;
+	<span id="title">
+		<a id="title-Bubble" class="selected-viz">Bubble</a>
+		<a id="title-Selection">Select</a>
+		<a id="title-Insertion">Insert</a>
+		<a id="title-Merge">Merge</a>
+		<a id="title-Quick">Quick</a>
+		<a id="title-RandomizedQuick">R-Quick</a>
+		<a id="title-Counting">Count</a>
+		<a id="title-Radix">Radix</a>
+	</span>
+	<div id="mode-menu">
+		<div id="mode-button">Exploration Mode
+			<img src="./arrow_white.png">
+		</div>
+		<div id="other-modes">
+			<a href="http://visualgo.net/sorting.html#">Tutorial Mode</a>
+		</div>
+	</div>
+</div>
+
+<div id="viz">
+	<svg id="viz-canvas" height="490" width="1000">
+
+	</svg>
+	<br>
+	<svg id="viz-counting-sort-secondary-canvas" height="60" width="1000" style="display: none;"></svg>
+	<div id="viz-radix-sort-canvas" style="display: none;">
+		<span id="radix-sort-bucket-labels-collection">
+			<span class="radix-sort-bucket-label" style="left: 17.5px;">0</span>
+			<span class="radix-sort-bucket-label" style="left: 82.5px;">1</span>
+			<span class="radix-sort-bucket-label" style="left: 147.5px;">2</span>
+			<span class="radix-sort-bucket-label" style="left: 212.5px;">3</span>
+			<span class="radix-sort-bucket-label" style="left: 277.5px;">4</span>
+			<span class="radix-sort-bucket-label" style="left: 342.5px;">5</span>
+			<span class="radix-sort-bucket-label" style="left: 407.5px;">6</span>
+			<span class="radix-sort-bucket-label" style="left: 472.5px;">7</span>
+			<span class="radix-sort-bucket-label" style="left: 537.5px;">8</span>
+			<span class="radix-sort-bucket-label" style="left: 602.5px;">9</span>
+		</span>
+	</div>
+</div>
+
+<div id="current-action" class="panel" style="display: none;">
+	<p>Bubble Sort</p>
+</div>
+<div id="actions" class="panel" style="height: 64px; width: 150px; background-color: rgb(214, 87, 117);">
+	<p id="create">Create</p>
+	<p id="sort">Sort</p>
+</div>
+<div id="actions-hide" class="panel-hide" style="padding-top: 24px; padding-bottom: 24px; background-color: rgb(214, 87, 117);">
+	<img src="./arrow_white_right.png" title="show/hide actions panel" class="rotateRight">
+</div>
+<div id="actions-extras">
+	<div class="create action-menu-pullout" style="left: 193px; bottom: 92px;">
+		<div id="create-random" class="execAction new-menu-option coloured-menu-option" onclick="createList(&#39;random&#39;)" style="float: left; color: rgb(255, 255, 255); background-color: rgb(214, 87, 117);">
+			<p>Random</p>
+		</div>
+		<div id="create-sorted" class="execAction new-menu-option coloured-menu-option" onclick="triggerSubmenu(&#39;sorted&#39;)" style="float: left; color: rgb(255, 255, 255); background-color: rgb(214, 87, 117);">
+			<p>Sorted</p>
+			<div id="create-sorted-increasing" class="execAction coloured-menu-option" onclick="createList(&#39;sorted-increasing&#39;)" style="color: rgb(255, 255, 255); display: none; background-color: rgb(214, 87, 117);">
+				<p>Increasing</p>
+			</div>
+			<div id="create-sorted-decreasing" class="execAction new-menu-option coloured-menu-option" onclick="createList(&#39;sorted-decreasing&#39;)" style="color: rgb(255, 255, 255); display: none; background-color: rgb(214, 87, 117);">
+				<p>Decreasing</p>
+			</div>
+		</div>
+		<div id="create-nearly-sorted" class="execAction new-menu-option coloured-menu-option" onclick="triggerSubmenu(&#39;nearly-sorted&#39;)" style="float: left; color: rgb(255, 255, 255); background-color: rgb(214, 87, 117);">
+			<p>Nearly Sorted</p>
+			<div id="create-nearly-sorted-increasing" class="execAction coloured-menu-option" onclick="createList(&#39;nearly-sorted-increasing&#39;)" style="color: rgb(255, 255, 255); display: none; background-color: rgb(214, 87, 117);">
+				<p>Increasing</p>
+			</div>
+			<div id="create-nearly-sorted-decreasing" class="execAction new-menu-option coloured-menu-option" onclick="createList(&quot;nearly-sorted-decreasing&quot;)" style="color: rgb(255, 255, 255); display: none; background-color: rgb(214, 87, 117);">
+				<p>Decreasing</p>
+			</div>
+		</div>
+		<div id="create-userdefined-input" class="new-menu-option" style="float: left;">
+			<input type="text" id="userdefined-input" title="Enter a list of numbers, separated by commas." autocomplete="off" value="3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48" style="background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==); background-attachment: scroll; background-position: 100% 50%; background-repeat: no-repeat;">
+		</div>
+		<div id="create-userdefined-go" class="execAction new-menu-option coloured-menu-option" onclick="createList(&#39;userdefined&#39;)" style="float: left; color: rgb(255, 255, 255); background-color: rgb(214, 87, 117);">
+			<p>GO</p>
+		</div>
+		<div id="create-err" class="err" style="float: left;"></div>
+	</div>
+
+	<div class="sort action-menu-pullout" style="left: 193px;">
+		<div id="sort-bubble-merge-inversion" class="execAction new-menu-option coloured-menu-option" style="float: left; color: rgb(255, 255, 255); background-color: rgb(214, 87, 117);">
+			<p>
+				<label>
+					<input type="checkbox" id="sort-bubble-merge-inversion-checkbox">&nbsp;Compute Inversion Index</label>
+			</p>
+		</div>
+		<div id="sort-go" class="execAction new-menu-option coloured-menu-option" onclick="sort()" style="float: left; color: rgb(255, 255, 255); background-color: rgb(214, 87, 117);">
+			<p>GO</p>
+		</div>
+		<div id="sort-err" class="err" style="float: left;"></div>
+	</div>
+</div>
+
+<div id="status" class="panel" style="color: rgb(0, 0, 0); background-color: rgb(167, 212, 30);">
+	<p></p>
+</div>
+<div id="status-hide" class="panel-hide" style="background-color: rgb(167, 212, 30);">
+	<img src="./arrow_black_right.png" title="show/hide status panel">
+</div>
+
+<div id="codetrace" class="panel" style="background-color: rgb(82, 188, 105);">
+	<!--can add class "highlighed" to hightlight one line-->
+	<p id="code1" style="padding-top: 10px; color: rgb(255, 255, 255); background-color: rgb(82, 188, 105);"></p>
+	<p id="code2" style="color: rgb(255, 255, 255); background-color: rgb(82, 188, 105);"></p>
+	<p id="code3" style="color: rgb(255, 255, 255); background-color: rgb(82, 188, 105);"></p>
+	<p id="code4" style="color: rgb(255, 255, 255); background-color: rgb(82, 188, 105);"></p>
+	<p id="code5" style="color: rgb(255, 255, 255); background-color: rgb(82, 188, 105);"></p>
+	<p id="code6" style="color: rgb(255, 255, 255); background-color: rgb(82, 188, 105);"></p>
+	<p id="code7" style="padding-bottom: 10px; color: rgb(255, 255, 255); background-color: rgb(82, 188, 105);"></p>
+</div>
+<div id="codetrace-hide" class="panel-hide" style="background-color: rgb(82, 188, 105);">
+	<img src="./arrow_white_right.png" title="show/hide codetrace panel">
+</div>
+
+<div id="left-bar"></div>
+<div id="right-bar"></div>
+<!-- Bottom bar and overlay popups -->
+<div id="bottom-bar">
+	<a id="trigger-about">About</a>
+	<a id="trigger-team">Team</a>
+	<a id="trigger-terms">Terms of use</a>
+</div>
+
+<div id="media-controls">
+	<div id="speed-control">slow
+		<div id="speed-input" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" aria-disabled="false">
+			<a class="ui-slider-handle ui-state-default ui-corner-all" href="http://visualgo.net/sorting.html#" style="left: 68.4211%;"></a>
+		</div>fast</div>
+	<span id="go-to-beginning" class="media-control-button" title="go to beginning" onclick="goToBeginning()">
+		<img src="./goToBeginning.png" alt="go to beginning">
+	</span>
+	<span id="previous" class="media-control-button" title="step backward" onclick="stepBackward()">
+		<img src="./prevFrame.png" alt="previous frame">
+	</span>
+	<span id="pause" class="media-control-button" title="pause" onclick="pause()">
+		<img src="./pause.png" alt="pause">
+	</span>
+	<span id="play" class="media-control-button" title="play" onclick="play()" style="display: none;">
+		<img src="./play.png" alt="play">
+	</span>
+	<span id="next" class="media-control-button" title="step forward" onclick="stepForward()">
+		<img src="./nextFrame.png" alt="next frame">
+	</span>
+	<span id="go-to-end" class="media-control-button" title="go to end" onclick="goToEnd()">
+		<img src="./goToEnd.png" alt="go to end">
+	</span>
+	<div id="progress-bar" class="media-control-button ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" aria-disabled="false">
+		<div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 0%; background-color: rgb(46, 187, 209);"></div>
+		<a class="ui-slider-handle ui-state-default ui-corner-all" href="http://visualgo.net/sorting.html#" style="left: 0%;"></a>
+	</div>
+</div>
+
+<div id="dark-overlay"></div>
+<div id="about" class="overlays">
+	<h4 style="background-color: rgb(46, 187, 209);">About VisuAlgo</h4>
+	<img class="close-overlay" src="./cross_white.png">
+	<div class="content">
+		<p>Content here</p>
+	</div>
+</div>
+<div id="team" class="overlays">
+	<h4 style="background-color: rgb(46, 187, 209);">The team</h4>
+	<img class="close-overlay" src="./cross_white.png">
+	<div class="content">
+		<p>
+			<strong>
+				one
+			</strong>
+			<p>
+				<strong>
+					two
+				</strong>
+	</div>
+</div>
+
+<div id="tutorial-1" class="tutorial-dialog">
+	<p>Sorting algorithms simply puts elements (integers, numbers, strings, etc) of a list in a certain order (increasing, decreasing, lexicographical, etc). There are many different sorting algorithms, and each has its own advantages and limitations.
+		<br>
+		<br> This visualization will use sort integers in increasing order.</p>
+	<div class="tutorial-next" style="background-color: rgb(46, 187, 209);">Next
+		<img src="./arrow_white_right.png">
+	</div>
+</div>
+<div id="tutorial-2" class="tutorial-dialog">
+	<p>Listed here are the common sorting algorithms. Select the respective algorithm names to switch among the different sorting algorithms.</p>
+	<div class="tutorial-next" style="background-color: rgb(46, 187, 209);">Next
+		<img src="./arrow_white_right.png">
+	</div>
+</div>
+<div id="tutorial-3" class="tutorial-dialog">
+	<p>Here you can create a new list, which you can either define yourself, or let the computer generate a random list.
+		<br>
+		<br> To sort the elements, click Sort then Go. Some sorting algorithms will have certain options; you may toggle the options as you wish before clicking Go.</p>
+	<div class="tutorial-next" style="background-color: rgb(46, 187, 209);">Next
+		<img src="./arrow_white_right.png">
+	</div>
+</div>
+<div id="tutorial-4" class="tutorial-dialog">
+	<p>View the visualisation here!</p>
+	<div class="tutorial-next" style="background-color: rgb(46, 187, 209);">Next
+		<img src="./arrow_white_right.png">
+	</div>
+</div>
+<div id="tutorial-5" class="tutorial-dialog">
+	<p>As the action is being carried out, each step will be described in the status panel.</p>
+	<div class="tutorial-next" style="background-color: rgb(46, 187, 209);">Next
+		<img src="./arrow_white_right.png">
+	</div>
+</div>
+<div id="tutorial-6" class="tutorial-dialog">
+	<p>You can also follow the pseudocode highlights to trace the algorithm.</p>
+	<div class="tutorial-next" style="background-color: rgb(46, 187, 209);">Next
+		<img src="./arrow_white_right.png">
+	</div>
+</div>
+<div id="tutorial-7" class="tutorial-dialog">
+	<p>Control the animation with the player controls! Keyboard shortcuts are:
+		<br>
+	</p>
+	<div style="margin-top: 8px;">
+		<strong>Spacebar:</strong> play/pause/replay</div>
+	<strong>Left/right arrows:</strong> step backward/step forward
+	<br>
+	<strong>-/+:</strong> decrease/increase speed
+	<br>
+	<div class="tutorial-next" style="background-color: rgb(46, 187, 209);">Next
+		<img src="./arrow_white_right.png">
+	</div>
+</div>
+<div id="tutorial-8" class="tutorial-dialog">
+	<p>Return to "Exploration Mode" to start exploring!</p>
+</div>
